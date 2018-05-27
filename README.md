@@ -1,8 +1,7 @@
 # popular_movies
 
-A new Flutter project.
+Popular movies stage 1 project from Udacity Android Nanodgree course.
 
-## Getting Started
+## Notes
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+Made with Flutter
