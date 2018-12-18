@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:popular_movies/api_key.dart';
-import 'package:popular_movies/details.dart';
+import 'package:popular_movies/details/details.dart';
 import 'package:popular_movies/item.dart';
 import 'package:popular_movies/tmdb.dart';
 
@@ -22,13 +22,13 @@ class PopularMovies extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: new MyHomePage.MovieList(title: 'Flutter Demo Home Page'),
+      home: new MyHomePage.movieList(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage.MovieList({Key key, this.title}) : super(key: key);
+  MyHomePage.movieList({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
@@ -68,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _data.add(new GestureDetector(
               child: new ItemWidget(
                 posterPath: movie.posterPath,
+                title: movie.title,
               ),
               onTap: () {
                 Navigator.push(
