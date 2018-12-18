@@ -11,9 +11,10 @@ class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: Colors.black45,
+      backgroundColor: new Color(0xff111111),
       appBar: new AppBar(
         title: new Text("Details"),
+        backgroundColor: Colors.black45,
       ),
       body: new ListView(children: <Widget>[
         new PosterWithInfo(movie),

@@ -20,7 +20,7 @@ class PopularMovies extends StatelessWidget {
     return new MaterialApp(
       title: 'Flutter Demo',
       theme: new ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.brown,
       ),
       home: new MyHomePage.movieList(title: 'Flutter Demo Home Page'),
     );
@@ -45,13 +45,18 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      backgroundColor: new Color(0xff111111),
       appBar: new AppBar(
         title: new Text(widget.title),
+        centerTitle: true,
+        backgroundColor: Colors.black45,
       ),
       body: new GridView.builder(
         gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
+          crossAxisSpacing: 4.0,
+          mainAxisSpacing: 4.0,
           maxCrossAxisExtent: 200.0,
-          childAspectRatio: 0.75,
+          childAspectRatio: 0.67,
         ),
         itemCount: _getItemCount(),
         itemBuilder: (_, int position) => _data[position],
@@ -74,9 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (_) => new Details(
-                              movie: movie,
-                            )));
+                        builder: (_) => new Details(movie: movie)));
               }));
         }
       });
