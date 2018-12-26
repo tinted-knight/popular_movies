@@ -6,9 +6,10 @@ class Movie {
   final String releaseDate;
   final String overview;
   final num voteAverage;
+  final num id;
 
-  Movie(
-      {this.voteAverage,
+  Movie({this.id,
+      this.voteAverage,
       this.releaseDate,
       this.overview,
       this.title,
@@ -16,6 +17,7 @@ class Movie {
 
   Movie.fromResult(Result r)
       : title = r.title,
+        id = r.id,
         posterPath = r.posterPath,
         releaseDate = r.releaseDate,
         overview = r.overview,

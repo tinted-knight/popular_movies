@@ -3,15 +3,17 @@
 part of 'tmdb.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-Tmdb _$TmdbFromJson(Map<String, dynamic> json) => new Tmdb(
-    page: json['page'] as int,
-    results: (json['results'] as List)
-        ?.map((e) =>
-            e == null ? null : new Result.fromJson(e as Map<String, dynamic>))
-        ?.toList());
+Tmdb _$TmdbFromJson(Map<String, dynamic> json) {
+  return new Tmdb(
+      page: json['page'] as int,
+      results: (json['results'] as List)
+          ?.map((e) =>
+              e == null ? null : new Result.fromJson(e as Map<String, dynamic>))
+          ?.toList());
+}
 
 abstract class _$TmdbSerializerMixin {
   int get page;
@@ -20,20 +22,25 @@ abstract class _$TmdbSerializerMixin {
       <String, dynamic>{'page': page, 'results': results};
 }
 
-Result _$ResultFromJson(Map<String, dynamic> json) => new Result(
-    json['title'] as String,
-    json['poster_path'] as String,
-    json['release_date'] as String,
-    json['overview'] as String,
-    json['vote_average'] as num);
+Result _$ResultFromJson(Map<String, dynamic> json) {
+  return new Result(
+      json['title'] as String,
+      json['poster_path'] as String,
+      json['release_date'] as String,
+      json['overview'] as String,
+      json['vote_average'] as num,
+      json['id'] as num);
+}
 
 abstract class _$ResultSerializerMixin {
+  num get id;
   String get title;
   num get voteAverage;
   String get posterPath;
   String get releaseDate;
   String get overview;
   Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': id,
         'title': title,
         'vote_average': voteAverage,
         'poster_path': posterPath,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:popular_movies/base/BaseScafold.dart';
 import 'package:popular_movies/details/overview.dart';
 import 'package:popular_movies/details/poster.dart';
 import 'package:popular_movies/tmdb.dart';
@@ -11,15 +12,20 @@ class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: new Color(0xff111111),
+      backgroundColor: bgColor,
       appBar: new AppBar(
         title: new Text("Details"),
-        backgroundColor: Colors.black45,
+        centerTitle: true,
+        backgroundColor: bgColor,
       ),
       body: new ListView(children: <Widget>[
         new PosterWithInfo(movie),
-        new OverViewLabel(),
-        new OverviewContent(movie.overview)
+        new Column(
+          children: <Widget>[
+            new OverViewLabel(),
+            new OverviewContent(movie.overview)
+          ],
+        )
       ]),
     );
   }

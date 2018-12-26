@@ -12,7 +12,9 @@ class PosterWithInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Stack(
       children: <Widget>[
-        new PosterImage(movie.posterPath),
+        Hero(
+            tag: "poster_${movie.id}",
+            child: new PosterImage(movie.posterPath)),
         new Positioned(
           bottom: 0.0,
           right: 16.0,
@@ -49,13 +51,22 @@ class PosterImage extends BasePosterImage {
 class RatingWidget extends StatelessWidget {
   final num voteAverage;
 
+  final double _borderRadius = 12.0;
+
   RatingWidget(this.voteAverage);
 
   @override
   Widget build(BuildContext context) {
     return new Container(
       padding: const EdgeInsets.all(4.0),
-      decoration: new BoxDecoration(color: Colors.red),
+      margin: const EdgeInsets.only(bottom: 2.0),
+      decoration: new BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(_borderRadius),
+            topRight: Radius.circular(_borderRadius),
+            bottomLeft: Radius.circular(_borderRadius),
+          )),
       child: new Row(
         children: <Widget>[
           new Padding(
@@ -82,6 +93,8 @@ class RatingWidget extends StatelessWidget {
 class MovieTitle extends StatelessWidget {
   final String title;
 
+  final double _borderRadius = 12.0;
+
   const MovieTitle(this.title);
 
   @override
@@ -89,7 +102,13 @@ class MovieTitle extends StatelessWidget {
     return new Container(
         constraints: new BoxConstraints.loose(new Size(340.0, 100.0)),
         padding: const EdgeInsets.all(8.0),
-        decoration: new BoxDecoration(color: Colors.white),
+        decoration: new BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(_borderRadius),
+              bottomRight: Radius.circular(_borderRadius),
+              bottomLeft: Radius.circular(_borderRadius),
+            )),
         child: new Text(
           this.title,
           style: new TextStyle(

@@ -1,39 +1,39 @@
-import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:popular_movies/base/poster.dart';
 
 class ItemWidget extends StatelessWidget {
   final String posterPath;
   final String title;
+  final num id;
 
-  ItemWidget({this.posterPath, this.title});
+  ItemWidget({this.posterPath, this.title, this.id});
 
   @override
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
-      new PosterImage(this.posterPath),
+      Container(
+        decoration: new BoxDecoration(
+          borderRadius: new BorderRadius.circular(16.0)
+        ),
+          child: Hero(tag: "poster_$id", child: new PosterImage(this.posterPath))),
       new MoviePosterTitle(this.title)
     ]);
   }
 }
 
-
 class PosterImage extends BasePosterImage {
-
   PosterImage(String posterPath) : super(posterPath);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: new CachedNetworkImage(
-        imageUrl: getPosterUrl(),
-        placeholder: new CircularProgressIndicator(),
-        errorWidget: new Icon(Icons.error),
-        fit: BoxFit.fitWidth,
-      ),
+    return new CachedNetworkImage(
+      imageUrl: getPosterUrl(),
+      placeholder: new CircularProgressIndicator(),
+      errorWidget: new Icon(Icons.error),
+      fit: BoxFit.fitWidth,
     );
   }
-
 }
 
 class MoviePosterTitle extends StatelessWidget {

@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:popular_movies/api_key.dart';
+import 'package:popular_movies/base/BaseScafold.dart';
 import 'package:popular_movies/details/details.dart';
 import 'package:popular_movies/item.dart';
 import 'package:popular_movies/tmdb.dart';
@@ -22,13 +24,13 @@ class PopularMovies extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.brown,
       ),
-      home: new MyHomePage.movieList(title: 'Flutter Demo Home Page'),
+      home: new MyHomePage(title: 'Flutter Demo (Tmdb Api)'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage.movieList({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
@@ -45,22 +47,29 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: new Color(0xff111111),
+      backgroundColor: bgColor,
       appBar: new AppBar(
         title: new Text(widget.title),
         centerTitle: true,
-        backgroundColor: Colors.black45,
+        backgroundColor: bgColor,
       ),
-      body: new GridView.builder(
-        gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
-          crossAxisSpacing: 4.0,
-          mainAxisSpacing: 4.0,
-          maxCrossAxisExtent: 200.0,
-          childAspectRatio: 0.67,
-        ),
-        itemCount: _getItemCount(),
-        itemBuilder: (_, int position) => _data[position],
+      body: _buildGrid(),
+    );
+  }
+
+  Widget _buildGrid() {
+    return new GridView.builder(
+      gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
+        crossAxisSpacing: 4.0,
+        mainAxisSpacing: 4.0,
+        maxCrossAxisExtent: 200.0,
+        childAspectRatio: 0.67,
       ),
+      itemCount: _getItemCount(),
+      itemBuilder: (_, int position) {
+        if(_data.length == 0) return new CircularProgressIndicator();
+        return _data[position];
+      },
     );
   }
 
@@ -72,9 +81,9 @@ class _MyHomePageState extends State<MyHomePage> {
         for (Result movie in tmdb.results) {
           _data.add(new GestureDetector(
               child: new ItemWidget(
-                posterPath: movie.posterPath,
-                title: movie.title,
-              ),
+                  posterPath: movie.posterPath,
+                  title: movie.title,
+                  id: movie.id),
               onTap: () {
                 Navigator.push(
                     context,

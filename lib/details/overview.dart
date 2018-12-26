@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 class OverViewLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      constraints: new BoxConstraints.loose(new Size(20.0, 100.0)),
-      padding:
-      const EdgeInsets.only(top: 24.0, right: 8.0, left: 8.0, bottom: 0.0),
+    return Container(
+      decoration: new BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(8.0)),
+      margin: const EdgeInsets.only(top: 8.0),
+      padding: const EdgeInsets.fromLTRB(32.0, 4.0, 32.0, 4.0),
       child: new Text(
         "Overview",
         style: new TextStyle(
-          color: Colors.white70,
+          color: Colors.black87,
           fontWeight: FontWeight.bold,
           fontSize: 14.0,
         ),
@@ -26,8 +27,12 @@ class OverviewContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Padding(
-      padding: const EdgeInsets.all(16.0),
+    return new Container(
+      decoration: new BoxDecoration(
+          color: new Color(0xff222222),
+          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
       child: new Text(
         this.overview,
         textAlign: TextAlign.start,

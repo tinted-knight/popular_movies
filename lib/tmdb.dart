@@ -14,10 +14,12 @@ class Tmdb extends Object with _$TmdbSerializerMixin {
 
 @JsonSerializable()
 class Result extends Object with _$ResultSerializerMixin {
+  final num id;
+
   final String title;
 
-   @JsonKey(name: "vote_average")
-   final num voteAverage;
+  @JsonKey(name: "vote_average")
+  final num voteAverage;
 
   @JsonKey(name: "poster_path")
   final String posterPath;
@@ -27,7 +29,8 @@ class Result extends Object with _$ResultSerializerMixin {
 
   final String overview;
 
-  Result(this.title, this.posterPath, this.releaseDate, this.overview, this.voteAverage);
+  Result(this.title, this.posterPath, this.releaseDate, this.overview,
+      this.voteAverage, this.id);
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
 }
