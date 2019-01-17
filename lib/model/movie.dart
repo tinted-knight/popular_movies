@@ -1,4 +1,4 @@
-import 'package:popular_movies/tmdb.dart';
+import 'package:popular_movies/model/tmdb.dart';
 
 class Movie {
   final String title;

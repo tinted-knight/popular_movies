@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-class OverViewLabel extends StatelessWidget {
+class SectionLabel extends StatelessWidget {
+  final String text;
+
+  const SectionLabel(this.text, {Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -9,7 +13,7 @@ class OverViewLabel extends StatelessWidget {
       margin: const EdgeInsets.only(top: 8.0),
       padding: const EdgeInsets.fromLTRB(32.0, 4.0, 32.0, 4.0),
       child: new Text(
-        "Overview",
+        text,
         style: new TextStyle(
           color: Colors.black87,
           fontWeight: FontWeight.bold,

@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:popular_movies/api_key.dart';
 import 'package:popular_movies/base/BaseScafold.dart';
 import 'package:popular_movies/details/details.dart';
-import 'package:popular_movies/item.dart';
-import 'package:popular_movies/tmdb.dart';
+import 'package:popular_movies/launch/item.dart';
+import 'package:popular_movies/model/tmdb.dart';
 
 var urlBase = "http://api.themoviedb.org/3/";
 var urlPopular = "movie/popular?";
@@ -23,6 +23,7 @@ class PopularMovies extends StatelessWidget {
       title: 'Flutter Demo',
       theme: new ThemeData(
         primarySwatch: Colors.brown,
+        buttonColor: Colors.amber[900],
       ),
       home: new MyHomePage(title: 'Flutter Demo (Tmdb Api)'),
     );

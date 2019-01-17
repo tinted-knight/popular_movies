@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'tmdb.g.dart';
+part 'package:popular_movies/model/tmdb.g.dart';
 
 @JsonSerializable()
 class Tmdb extends Object with _$TmdbSerializerMixin {

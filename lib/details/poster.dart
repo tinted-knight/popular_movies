@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/poster.dart';
-import 'package:popular_movies/tmdb.dart';
+import 'package:popular_movies/model/tmdb.dart';
 
 class PosterWithInfo extends StatelessWidget {
   final Result movie;
