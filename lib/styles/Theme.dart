@@ -22,6 +22,10 @@ TextTheme _buidlDarkTextTheme(TextTheme base) {
         color: Colors.white70,
 //      height: 1.5,
       ),
+      body2: TextStyle(
+        fontSize: 14.0,
+        color: Colors.white70,
+      ),
       caption: TextStyle(
         color: Colors.black87,
         fontWeight: FontWeight.bold,

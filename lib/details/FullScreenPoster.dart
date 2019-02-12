@@ -10,6 +10,7 @@ class FullScreenPoster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Transparent AppBar https://stackoverflow.com/a/53666091/8460732
     return Scaffold(
       appBar: null,
       body: Stack(children: <Widget>[

@@ -69,10 +69,14 @@ class _ReviewsWidgetState extends State<ReviewsWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               AuthorLabel(author: item.author),
-              ReviewContent(item.content.substring(
-                0,
-                item.content.length > 100 ? 100 : item.content.length,
-              )),
+              ReviewContent(item.content),
+//              ReviewContent(
+//                isExpandable: item.content.length > 100,
+//                value: item.content.substring(
+//                  0,
+//                  item.content.length > 100 ? 100 : item.content.length,
+//                ),
+//              ),
               SizedBox(height: 8.0),
             ],
           ),
