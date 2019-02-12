@@ -4,9 +4,14 @@ import 'package:popular_movies/base/poster.dart';
 import 'package:popular_movies/model/tmdb.dart';
 
 class PosterWithInfo extends StatelessWidget {
+  final AnimationController controller;
   final Result movie;
 
-  PosterWithInfo(this.movie);
+  final Animation<double> _posAnimation;
+
+  PosterWithInfo({this.movie, this.controller})
+      : _posAnimation =
+            Tween<double>(begin: -200.0, end: 0.0).animate(controller);
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +20,30 @@ class PosterWithInfo extends StatelessWidget {
         Hero(
             tag: "poster_${movie.id}",
             child: new PosterImage(movie.posterPath)),
-        new Positioned(
-          bottom: 0.0,
-          right: 16.0,
-          child: new Column(
+        _positionedAnimation(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              new RatingWidget(movie.voteAverage),
-              new ReleaseDateWidget(movie.releaseDate),
+              RatingWidget(movie.voteAverage),
+              ReleaseDateWidget(movie.releaseDate),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget _positionedAnimation(Widget widget) {
+    return AnimatedBuilder(
+      animation: _posAnimation,
+      builder: (_, child) {
+        return Positioned(
+          bottom: _posAnimation.value,
+          right: 16.0,
+          child: widget,
+        );
+      },
+      child: widget,
     );
   }
 }
@@ -52,7 +69,6 @@ class PosterImage extends BasePosterImage {
 
 class RatingWidget extends StatelessWidget {
   final num voteAverage;
-
   final double _borderRadius = 12.0;
 
   RatingWidget(this.voteAverage);

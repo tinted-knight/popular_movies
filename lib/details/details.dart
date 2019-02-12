@@ -19,10 +19,21 @@ class DetailsSliveredAppBar extends StatefulWidget {
   }
 }
 
-class _DetailsSliveredAppBarState extends State<DetailsSliveredAppBar> {
+class _DetailsSliveredAppBarState extends State<DetailsSliveredAppBar>
+    with SingleTickerProviderStateMixin {
+  _DetailsSliveredAppBarState(this.movie);
+
   final Result movie;
 
-  _DetailsSliveredAppBarState(this.movie);
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(duration: Duration(milliseconds: 500), vsync: this);
+    _controller.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +57,7 @@ class _DetailsSliveredAppBarState extends State<DetailsSliveredAppBar> {
                               FullScreenPoster(movie.posterPath, movie.id)),
                     );
                   },
-                  child: PosterWithInfo(movie),
+                  child: PosterWithInfo(movie: movie, controller: _controller),
                 ),
               ),
             ),
@@ -54,6 +65,12 @@ class _DetailsSliveredAppBarState extends State<DetailsSliveredAppBar> {
               pinned: true,
               delegate: _SliverAppBarDelegate(AppBar(
                 title: Text(movie.title),
+                actions: <Widget>[
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.favorite_border),
+                  )
+                ],
               )),
             )
           ];
@@ -74,6 +91,12 @@ class _DetailsSliveredAppBarState extends State<DetailsSliveredAppBar> {
         ReviewsWidget(Repository(), movie.id),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
 
