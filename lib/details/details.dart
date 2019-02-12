@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:popular_movies/styles/Theme.dart';
 import 'package:popular_movies/base/repo/repo.dart';
+import 'package:popular_movies/details/FullScreenPoster.dart';
 import 'package:popular_movies/details/overview.dart';
 import 'package:popular_movies/details/poster.dart';
 import 'package:popular_movies/details/reviews/ReviewsWidget.dart';
 import 'package:popular_movies/details/trailers/TrailersWidget.dart';
 import 'package:popular_movies/model/tmdb.dart';
+import 'package:popular_movies/styles/DetailsScreen.dart';
 
 class DetailsSliveredAppBar extends StatefulWidget {
   final Result movie;
@@ -34,9 +35,19 @@ class _DetailsSliveredAppBarState extends State<DetailsSliveredAppBar> {
               pinned: false,
               snap: false,
               floating: false,
-              expandedHeight: 245.0,
+              expandedHeight: kAppBarHeight,
               flexibleSpace: FlexibleSpaceBar(
-                background: PosterWithInfo(movie),
+                background: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              FullScreenPoster(movie.posterPath, movie.id)),
+                    );
+                  },
+                  child: PosterWithInfo(movie),
+                ),
               ),
             ),
             SliverPersistentHeader(

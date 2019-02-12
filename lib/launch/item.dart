@@ -26,7 +26,7 @@ class PosterImage extends BasePosterImage {
   Widget build(BuildContext context) {
     return Center(
       child: AspectRatio(
-        aspectRatio: gridItemAspectRatio,
+        aspectRatio: kGridItemAspectRatio,
         child: CachedNetworkImage(
           imageUrl: this.posterUrl,
           errorWidget: Icon(Icons.error),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:popular_movies/styles/DetailsScreen.dart';
 
 class SectionLabel extends StatelessWidget {
   final String text;
@@ -29,7 +30,7 @@ class OverviewContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Container(
       decoration: new BoxDecoration(
-          color: new Color(0xff222222),
+          color: kSectionBgColor,
           borderRadius: BorderRadius.all(Radius.circular(8.0))),
       margin: const EdgeInsets.all(8.0),
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),

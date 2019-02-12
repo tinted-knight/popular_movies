@@ -23,20 +23,20 @@ class PopularMovies extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: myTheme,
-      home: new MyHomePage(title: 'Flutter Demo (Tmdb Api)'),
+      home: MovieList(title: 'Flutter Demo (Tmdb Api)'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class MovieList extends StatefulWidget {
+  MovieList({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _MovieListState createState() => new _MovieListState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MovieListState extends State<MovieList> {
   IMovies _moviesBloc;
 
   @override
@@ -74,11 +74,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildGrid(List<Result> values) {
     return new GridView.builder(
       gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
-        crossAxisSpacing: itemsSpacing,
-        mainAxisSpacing: itemsSpacing,
-        maxCrossAxisExtent: 200.0,
-//        childAspectRatio: 0.67,
-        childAspectRatio: gridItemAspectRatio,
+        crossAxisSpacing: kItemsSpacing,
+        mainAxisSpacing: kItemsSpacing,
+        maxCrossAxisExtent: kTilesExtent,
+        childAspectRatio: kGridItemAspectRatio,
       ),
       itemCount: values.length,
       //TODO посмотреть пример, как-то че-то не так

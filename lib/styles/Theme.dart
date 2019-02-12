@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
-const bgColor = const Color(0xff111111);
+final ThemeData darkTheme = _buildDarkTheme(ThemeData.dark());
 
-final ThemeData baseTheme = ThemeData.dark();
+ThemeData _buildDarkTheme(ThemeData baseTheme) {
+  final _bgColor = const Color(0xff111111);
 
-final ThemeData darkTheme = baseTheme.copyWith(
-  backgroundColor: bgColor,
-  scaffoldBackgroundColor: bgColor,
-  accentColor: Colors.grey,
-  textTheme: _buidlDarkTextTheme(baseTheme.textTheme),
-  primaryTextTheme: _buidlDarkTextTheme(baseTheme.primaryTextTheme),
-  accentTextTheme: _buidlDarkTextTheme(baseTheme.accentTextTheme),
-);
+  return baseTheme.copyWith(
+    backgroundColor: _bgColor,
+    scaffoldBackgroundColor: _bgColor,
+    accentColor: Colors.grey,
+    textTheme: _buidlDarkTextTheme(baseTheme.textTheme),
+    primaryTextTheme: _buidlDarkTextTheme(baseTheme.primaryTextTheme),
+    accentTextTheme: _buidlDarkTextTheme(baseTheme.accentTextTheme),
+  );
+}
 
 TextTheme _buidlDarkTextTheme(TextTheme base) {
   return base.copyWith(
