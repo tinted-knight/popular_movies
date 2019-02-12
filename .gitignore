@@ -11,3 +11,5 @@ packages
 .flutter-plugins
 proguard-rules.pro
 key.properties
+*.jks
+*.log

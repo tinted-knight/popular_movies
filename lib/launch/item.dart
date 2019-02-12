@@ -1,23 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/poster.dart';
+import 'package:popular_movies/styles/MovieGridStyle.dart';
 
-class ItemWidget extends StatelessWidget {
+class MovieItemWidget extends StatelessWidget {
   final String posterPath;
   final String title;
   final num id;
 
-  ItemWidget({this.posterPath, this.title, this.id});
+  MovieItemWidget({this.posterPath, this.title, this.id});
 
   @override
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
-      Container(
-        decoration: new BoxDecoration(
-          borderRadius: new BorderRadius.circular(16.0)
-        ),
-          child: Hero(tag: "poster_$id", child: new PosterImage(this.posterPath))),
-      new MoviePosterTitle(this.title)
+      Hero(tag: "poster_$id", child: PosterImage(this.posterPath)),
+      MoviePosterTitle(this.title)
     ]);
   }
 }
@@ -27,11 +24,15 @@ class PosterImage extends BasePosterImage {
 
   @override
   Widget build(BuildContext context) {
-    return new CachedNetworkImage(
-      imageUrl: getPosterUrl(),
-      placeholder: new CircularProgressIndicator(),
-      errorWidget: new Icon(Icons.error),
-      fit: BoxFit.fitWidth,
+    return Center(
+      child: AspectRatio(
+        aspectRatio: gridItemAspectRatio,
+        child: CachedNetworkImage(
+          imageUrl: this.posterUrl,
+          errorWidget: Icon(Icons.error),
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 }
@@ -46,13 +47,12 @@ class MoviePosterTitle extends StatelessWidget {
     return Positioned(
       bottom: 0.0,
       child: Container(
-        constraints:
-            new BoxConstraints.loose(new Size(150.0, double.maxFinite)),
-        decoration: new BoxDecoration(color: Colors.black54),
-        padding: new EdgeInsets.all(8.0),
-        child: new Text(
+        constraints: BoxConstraints.loose(new Size(150.0, double.maxFinite)),
+        decoration: BoxDecoration(color: Colors.black54),
+        padding: EdgeInsets.all(8.0),
+        child: Text(
           this.title,
-          style: new TextStyle(color: Colors.white, fontSize: 16.0),
+          style: Theme.of(context).textTheme.subhead,
         ),
       ),
     );

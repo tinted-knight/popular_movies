@@ -22,7 +22,6 @@ class PosterWithInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               new RatingWidget(movie.voteAverage),
-              new MovieTitle(movie.title),
               new ReleaseDateWidget(movie.releaseDate),
             ],
           ),
@@ -38,11 +37,14 @@ class PosterImage extends BasePosterImage {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: new CachedNetworkImage(
-        imageUrl: getPosterUrl(),
-        placeholder: new CircularProgressIndicator(),
-        errorWidget: new Icon(Icons.error),
-        height: 400.0,
+      child: AspectRatio(
+        aspectRatio: 4.0 / 3.0,
+        child: CachedNetworkImage(
+          imageUrl: this.posterUrl,
+          placeholder: new CircularProgressIndicator(),
+          errorWidget: new Icon(Icons.error),
+          fit: BoxFit.fitWidth,
+        ),
       ),
     );
   }
@@ -78,45 +80,11 @@ class RatingWidget extends StatelessWidget {
           ),
           new Text(
             voteAverage.toString(),
-            style: new TextStyle(
-              color: Colors.white,
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.headline,
           ),
         ],
       ),
     );
-  }
-}
-
-class MovieTitle extends StatelessWidget {
-  final String title;
-
-  final double _borderRadius = 12.0;
-
-  const MovieTitle(this.title);
-
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-        constraints: new BoxConstraints.loose(new Size(340.0, 100.0)),
-        padding: const EdgeInsets.all(8.0),
-        decoration: new BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(_borderRadius),
-              bottomRight: Radius.circular(_borderRadius),
-              bottomLeft: Radius.circular(_borderRadius),
-            )),
-        child: new Text(
-          this.title,
-          style: new TextStyle(
-            fontSize: 20.0,
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ));
   }
 }
 
@@ -132,9 +100,7 @@ class ReleaseDateWidget extends StatelessWidget {
         decoration: new BoxDecoration(color: Colors.black45),
         child: new Text(
           "Released on: ${this.releaseDate}",
-          style: new TextStyle(
-            color: Colors.white,
-          ),
+          style: Theme.of(context).textTheme.subhead,
         ));
   }
 }

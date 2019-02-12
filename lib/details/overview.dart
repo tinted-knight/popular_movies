@@ -10,15 +10,11 @@ class SectionLabel extends StatelessWidget {
     return Container(
       decoration: new BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(8.0)),
-      margin: const EdgeInsets.only(top: 8.0),
+      margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
       padding: const EdgeInsets.fromLTRB(32.0, 4.0, 32.0, 4.0),
       child: new Text(
         text,
-        style: new TextStyle(
-          color: Colors.black87,
-          fontWeight: FontWeight.bold,
-          fontSize: 14.0,
-        ),
+        style: Theme.of(context).textTheme.caption,
       ),
     );
   }
@@ -40,11 +36,7 @@ class OverviewContent extends StatelessWidget {
       child: new Text(
         this.overview,
         textAlign: TextAlign.start,
-        style: new TextStyle(
-          color: Colors.white70,
-          fontSize: 16.0,
-          height: 1.5,
-        ),
+        style: Theme.of(context).textTheme.body1.copyWith(height: 1.5),
       ),
     );
   }
