@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/poster.dart';
 import 'package:popular_movies/model/tmdb.dart';
+import 'package:popular_movies/styles/DetailsScreen.dart';
 
 class PosterWithInfo extends StatelessWidget {
   final AnimationController controller;
@@ -17,23 +17,24 @@ class PosterWithInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Stack(
       children: <Widget>[
-        Hero(
-            tag: "poster_${movie.id}",
-            child: new PosterImage(movie.posterPath)),
-        _positionedAnimation(
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              RatingWidget(movie.voteAverage),
-              ReleaseDateWidget(movie.releaseDate),
-            ],
-          ),
+        PosterHero(
+          posterPath: movie.posterPath,
+          aspectRatio: kPosterAppBarRatio,
         ),
+        _ratingAndDate(),
       ],
     );
   }
 
-  Widget _positionedAnimation(Widget widget) {
+  Widget _ratingAndDate() {
+    Widget widget = Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
+        RatingWidget(movie.voteAverage),
+        ReleaseDateWidget(movie.releaseDate),
+      ],
+    );
+
     return AnimatedBuilder(
       animation: _posAnimation,
       builder: (_, child) {
@@ -44,25 +45,6 @@ class PosterWithInfo extends StatelessWidget {
         );
       },
       child: widget,
-    );
-  }
-}
-
-class PosterImage extends BasePosterImage {
-  PosterImage(String posterPath) : super(posterPath);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: AspectRatio(
-        aspectRatio: 4.0 / 3.0,
-        child: CachedNetworkImage(
-          imageUrl: this.posterUrl,
-          placeholder: new CircularProgressIndicator(),
-          errorWidget: new Icon(Icons.error),
-          fit: BoxFit.fitWidth,
-        ),
-      ),
     );
   }
 }

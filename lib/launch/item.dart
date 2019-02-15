@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/poster.dart';
 import 'package:popular_movies/styles/MovieGridStyle.dart';
@@ -13,27 +12,12 @@ class MovieItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
-      Hero(tag: "poster_$id", child: PosterImage(this.posterPath)),
+      PosterHero(
+        posterPath: this.posterPath,
+        aspectRatio: kGridItemAspectRatio,
+      ),
       MoviePosterTitle(this.title)
     ]);
-  }
-}
-
-class PosterImage extends BasePosterImage {
-  PosterImage(String posterPath) : super(posterPath);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: AspectRatio(
-        aspectRatio: kGridItemAspectRatio,
-        child: CachedNetworkImage(
-          imageUrl: this.posterUrl,
-          errorWidget: Icon(Icons.error),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
   }
 }
 

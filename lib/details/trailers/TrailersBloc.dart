@@ -2,7 +2,7 @@ import 'package:popular_movies/base/BaseBloc.dart';
 import 'package:popular_movies/base/repo/repo.dart';
 import 'package:popular_movies/model/TrailerModel.dart';
 
-abstract class ITrailers extends IBlock<TrailersBlocState> {
+abstract class ITrailers extends IBloc<TrailersBlocState> {
   void loadTrailers(String movieId);
 }
 

@@ -2,7 +2,7 @@ import 'package:popular_movies/base/BaseBloc.dart';
 import 'package:popular_movies/base/repo/repo.dart';
 import 'package:popular_movies/model/tmdb.dart';
 
-abstract class IMovies extends IBlock<MoviesBlocState> {
+abstract class IMovies extends IBloc<MoviesBlocState> {
   void loadPopularMovies();
 }
 

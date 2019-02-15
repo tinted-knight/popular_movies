@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:popular_movies/base/repo/repo.dart';
 
-abstract class IBlock<T> {
+abstract class IBloc<T> {
   Stream<T> get states;
 
   void dispose();
 }
 
-abstract class BaseBloc<States> implements IBlock<States> {
+abstract class BaseBloc<States> implements IBloc<States> {
   BaseBloc(this._repository);
 
   final Repository _repository;

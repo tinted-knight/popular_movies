@@ -1,10 +1,9 @@
-import 'dart:async';
 
 import 'package:popular_movies/base/BaseBloc.dart';
 import 'package:popular_movies/base/repo/repo.dart';
 import 'package:popular_movies/model/ReviewModel.dart';
 
-abstract class IReviews extends IBlock<ReviewsBlocState> {
+abstract class IReviews extends IBloc<ReviewsBlocState> {
   void loadReviews(String movieId);
 }
 

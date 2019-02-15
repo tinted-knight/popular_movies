@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:popular_movies/styles/Theme.dart';
 import 'package:popular_movies/base/repo/repo.dart';
-import 'package:popular_movies/details/details.dart';
+import 'package:popular_movies/details/DetailsScreen.dart';
 import 'package:popular_movies/launch/PopularMoviesBloc.dart';
 import 'package:popular_movies/launch/item.dart';
 import 'package:popular_movies/model/tmdb.dart';
 import 'package:popular_movies/styles/MovieGridStyle.dart';
+import 'package:popular_movies/styles/Theme.dart';
 
 var urlBase = "http://api.themoviedb.org/3/";
 var urlPopular = "movie/popular?";
@@ -99,7 +99,8 @@ class _MovieListState extends State<MovieList> {
                     context,
                     MaterialPageRoute(
                         builder: (_) =>
-                            new DetailsSliveredAppBar(movie: item)));
+//                            new DetailsSliveredAppBar(movie: item)));
+                            new DetailsSliveredAppBarBloc(movie: item)));
               }),
         ));
     return list;

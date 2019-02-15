@@ -59,32 +59,10 @@ class _ReviewContentState extends State<ReviewContent>
   Widget _expandControl() {
     if (!isExpandable) return SizedBox(height: 0.0);
 
-    return IconButton(
-      color: Colors.amber,
-      icon: !_isExpanded ? Icon(Icons.expand_more) : Icon(Icons.expand_less),
-      onPressed: _expandTap,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 0.0),
+      child: Icon(Icons.more_horiz, color: Colors.white70),
     );
-
-    //    return GestureDetector(
-//      onTap: () {
-//        setState(() {
-//          _isExpanded = !_isExpanded;
-//        });
-//      },
-//      child: Container(
-//        margin: EdgeInsets.all(4.0),
-//        padding: EdgeInsets.all(4.0),
-//        alignment: Alignment.bottomRight,
-//        color: Colors.indigo,
-//        child: !_isExpanded ? Icon(Icons.expand_more) : Icon(Icons.expand_less),
-//      ),
-//    );
-  }
-
-  void _expandTap() {
-    setState(() {
-      _isExpanded = !_isExpanded;
-    });
   }
 
   @override
