@@ -7,15 +7,20 @@ class DetailsBloc {
       : _iTrailers = TrailersBloc(repository),
         _iReviews = ReviewsBloc(repository);
 
-  void load(String movieId) {
-    _iTrailers.loadTrailers(movieId);
-    _iReviews.loadReviews(movieId);
-  }
-
   final ITrailers _iTrailers;
   final IReviews _iReviews;
 
   Stream<TrailersBlocState> get trailers => _iTrailers.states;
 
   Stream<ReviewsBlocState> get reviews => _iReviews.states;
+
+  void load(String movieId) {
+    _iTrailers.loadTrailers(movieId);
+    _iReviews.loadReviews(movieId);
+  }
+
+  void dispose() {
+    _iTrailers.dispose();
+    _iReviews.dispose();
+  }
 }

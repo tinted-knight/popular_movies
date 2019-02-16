@@ -4,6 +4,8 @@ import 'package:popular_movies/model/tmdb.dart';
 
 abstract class IMovies extends IBloc<MoviesBlocState> {
   void loadPopularMovies();
+
+  void loadTopRatedMovies();
 }
 
 class MoviesBloc extends BaseBloc<MoviesBlocState> implements IMovies {
@@ -14,6 +16,18 @@ class MoviesBloc extends BaseBloc<MoviesBlocState> implements IMovies {
     streamController.sink.add(MoviesBlocState._loading());
     repository.fetchPopularMovies().then((response) {
       if (response != null) {
+        print('loadPopularMovies, from network');
+        streamController.sink.add(MoviesBlocState._values(response));
+      }
+    });
+  }
+
+  @override
+  void loadTopRatedMovies() {
+    streamController.sink.add(MoviesBlocState._loading());
+    repository.fetchTopRatedMovies().then((response) {
+      if (response != null) {
+        print('loadTopRatedMovies, from network');
         streamController.sink.add(MoviesBlocState._values(response));
       }
     });
@@ -35,3 +49,5 @@ class MoviesStateData extends MoviesBlocState {
 
   final Tmdb value;
 }
+
+enum MoviesFilter { popular, topRated }

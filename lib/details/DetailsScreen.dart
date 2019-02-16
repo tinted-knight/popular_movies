@@ -3,29 +3,28 @@ import 'package:popular_movies/base/repo/repo.dart';
 import 'package:popular_movies/details/DetailsBloc.dart';
 import 'package:popular_movies/details/FullReviewDialog.dart';
 import 'package:popular_movies/details/FullScreenPoster.dart';
-import 'package:popular_movies/details/SectionLabel.dart';
-import 'package:popular_movies/details/overview.dart';
 import 'package:popular_movies/details/PosterWithInfo.dart';
+import 'package:popular_movies/details/overview.dart';
 import 'package:popular_movies/details/reviews/ReviewsStreamWidget.dart';
 import 'package:popular_movies/details/trailers/TrailersStreamWidget.dart';
 import 'package:popular_movies/model/tmdb.dart';
 import 'package:popular_movies/styles/DetailsScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class DetailsSliveredAppBarBloc extends StatefulWidget {
+class DetailsScreen extends StatefulWidget {
   final Result movie;
 
-  const DetailsSliveredAppBarBloc({Key key, this.movie}) : super(key: key);
+  const DetailsScreen({Key key, this.movie}) : super(key: key);
 
   @override
-  _DetailsSliveredAppBarBlocState createState() {
-    return new _DetailsSliveredAppBarBlocState(movie);
+  _DetailsScreenState createState() {
+    return new _DetailsScreenState(movie);
   }
 }
 
-class _DetailsSliveredAppBarBlocState extends State<DetailsSliveredAppBarBloc>
+class _DetailsScreenState extends State<DetailsScreen>
     with SingleTickerProviderStateMixin {
-  _DetailsSliveredAppBarBlocState(this.movie) : _repository = Repository();
+  _DetailsScreenState(this.movie) : _repository = Repository();
 
   final Result movie;
   DetailsBloc _detailsBloc;
@@ -153,6 +152,7 @@ class _DetailsSliveredAppBarBlocState extends State<DetailsSliveredAppBarBloc>
   @override
   void dispose() {
     _controller.dispose();
+    _detailsBloc.dispose();
     super.dispose();
   }
 }

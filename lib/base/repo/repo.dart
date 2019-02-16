@@ -10,6 +10,7 @@ class Repository {
 
   final _urlBase = "http://api.themoviedb.org/3/";
   final _urlPopular = "movie/popular?";
+  final _urlTopRated = "movie/top_rated?";
 
   Future<Tmdb> fetchPopularMovies() async {
     var client = Client();
@@ -19,6 +20,18 @@ class Repository {
       return Tmdb.fromJson(json.decode(response.body));
     } else {
       print("fetchPopularMovies, error");
+      return null;
+    }
+  }
+
+  Future<Tmdb> fetchTopRatedMovies() async {
+    var client = Client();
+    final response = await client.get(_urlBase + _urlTopRated + apiKey);
+    if (response.statusCode == 200) {
+      print("fetchTopRated, status code 200");
+      return Tmdb.fromJson(json.decode(response.body));
+    } else {
+      print("fetchTopRated, error");
       return null;
     }
   }
