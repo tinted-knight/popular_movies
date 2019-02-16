@@ -1,4 +1,4 @@
-# Popular movies stage 1
+# Popular movies
 
 Popular movies project from Udacity Android Nanodgree course.
 Made with Flutter.
