@@ -40,7 +40,6 @@ class CommonMovieList extends StatelessWidget {
         childAspectRatio: kGridItemAspectRatio,
       ),
       itemCount: values.length,
-      //TODO посмотреть пример, как-то че-то не так
       itemBuilder: (_, int position) => _gridItemBuilder(values)[position],
     );
   }

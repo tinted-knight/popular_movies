@@ -1,21 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:popular_movies/base/BaseStreamWidget.dart';
+import 'package:popular_movies/base/BaseBloc.dart';
 import 'package:popular_movies/details/SectionLabel.dart';
 import 'package:popular_movies/details/trailers/TrailersBloc.dart';
 import 'package:popular_movies/model/TrailerModel.dart';
 import 'package:popular_movies/strings.dart';
 
-class TrailersStreamWidget extends BaseStreamWidget<TrailersBlocState> {
-  TrailersStreamWidget(Stream<TrailersBlocState> states, {this.onTap})
-      : super(states);
+class TrailersListWidget extends StatelessWidget {
+  TrailersListWidget({this.onTap});
 
   final Function(String) onTap;
 
   @override
   Widget build(BuildContext context) {
+    final TrailersBloc trailersBloc = BlocProvider.of<TrailersBloc>(context);
+
     return StreamBuilder<TrailersBlocState>(
-      stream: states,
+      stream: trailersBloc.states,
       initialData: TrailersStateLoading(),
       builder: (_, snapshot) {
         if (snapshot.data is TrailersStateLoading) {

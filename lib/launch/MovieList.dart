@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:popular_movies/base/BaseBloc.dart';
 import 'package:popular_movies/base/repo/repo.dart';
 import 'package:popular_movies/details/DetailsScreen.dart';
-import 'package:popular_movies/launch/FilterDialog.dart';
 import 'package:popular_movies/launch/CommonMovieList.dart';
+import 'package:popular_movies/launch/FilterDialog.dart';
 import 'package:popular_movies/launch/PopularMoviesBloc.dart';
-import 'package:popular_movies/launch/PopularStreamWidget.dart';
 import 'package:popular_movies/model/tmdb.dart';
 
 class MovieList extends StatefulWidget {
@@ -61,7 +60,7 @@ class _MovieListState extends State<MovieList> {
   void _movieItemTap(Result item) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => new DetailsScreen(movie: item)),
+      MaterialPageRoute(builder: (_) => DetailsScreen(movie: item)),
     );
   }
 

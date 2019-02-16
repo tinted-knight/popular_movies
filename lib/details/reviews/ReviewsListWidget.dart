@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:popular_movies/base/BaseStreamWidget.dart';
+import 'package:popular_movies/base/BaseBloc.dart';
 import 'package:popular_movies/details/SectionLabel.dart';
 import 'package:popular_movies/details/reviews/AuthorLabel.dart';
 import 'package:popular_movies/details/reviews/ReviewBloc.dart';
@@ -7,16 +7,17 @@ import 'package:popular_movies/details/reviews/ReviewContent.dart';
 import 'package:popular_movies/model/ReviewModel.dart';
 import 'package:popular_movies/strings.dart';
 
-class ReviewsStreamWidget extends BaseStreamWidget<ReviewsBlocState> {
-  ReviewsStreamWidget(Stream<ReviewsBlocState> states, {this.onTap})
-      : super(states);
+class ReviewsListWidget extends StatelessWidget {
+  ReviewsListWidget({this.onTap});
 
   final Function(String, String) onTap;
 
   @override
   Widget build(BuildContext context) {
+    final ReviewsBloc reviewsBloc = BlocProvider.of<ReviewsBloc>(context);
+
     return StreamBuilder<ReviewsBlocState>(
-      stream: states,
+      stream: reviewsBloc.states,
       initialData: ReviewsStateLoading(),
       builder: (_, snapshot) {
         if (snapshot.data is ReviewsStateLoading) {

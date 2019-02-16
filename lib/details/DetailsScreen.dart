@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:popular_movies/base/BaseBloc.dart';
 import 'package:popular_movies/base/repo/repo.dart';
-import 'package:popular_movies/details/DetailsBloc.dart';
 import 'package:popular_movies/details/FullReviewDialog.dart';
 import 'package:popular_movies/details/FullScreenPoster.dart';
 import 'package:popular_movies/details/PosterWithInfo.dart';
 import 'package:popular_movies/details/overview.dart';
-import 'package:popular_movies/details/reviews/ReviewsStreamWidget.dart';
-import 'package:popular_movies/details/trailers/TrailersStreamWidget.dart';
+import 'package:popular_movies/details/reviews/ReviewBloc.dart';
+import 'package:popular_movies/details/reviews/ReviewsListWidget.dart';
+import 'package:popular_movies/details/trailers/TrailersBloc.dart';
+import 'package:popular_movies/details/trailers/TrailersListWidget.dart';
 import 'package:popular_movies/model/tmdb.dart';
 import 'package:popular_movies/styles/DetailsScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,7 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 class DetailsScreen extends StatefulWidget {
   final Result movie;
 
-  const DetailsScreen({Key key, this.movie}) : super(key: key);
+  const DetailsScreen({this.movie});
 
   @override
   _DetailsScreenState createState() {
@@ -24,19 +26,30 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen>
     with SingleTickerProviderStateMixin {
-  _DetailsScreenState(this.movie) : _repository = Repository();
+  _DetailsScreenState(this.movie) : movieId = movie.id.toString();
 
   final Result movie;
-  DetailsBloc _detailsBloc;
-  final Repository _repository;
+  final Repository _repository = Repository();
+  final String movieId;
+
+//  DetailsBloc _detailsBloc;
+  TrailersBloc _trailersBloc;
+  ReviewsBloc _reviewsBloc;
 
   AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _detailsBloc = DetailsBloc(_repository);
-    _detailsBloc.load(movie.id.toString());
+//    _detailsBloc = DetailsBloc(_repository);
+//    _detailsBloc.load(movie.id.toString());
+
+    _trailersBloc = TrailersBloc(_repository);
+    _trailersBloc.loadTrailers(movieId);
+
+    _reviewsBloc = ReviewsBloc(_repository);
+    _reviewsBloc.loadReviews(movieId);
+
     _controller =
         AnimationController(duration: Duration(milliseconds: 500), vsync: this);
     _controller.forward();
@@ -99,14 +112,14 @@ class _DetailsScreenState extends State<DetailsScreen>
       children: <Widget>[
         OverviewContent(movie.overview),
         SizedBox(height: 16.0),
-        TrailersStreamWidget(
-          _detailsBloc.trailers,
-          onTap: _lauchUrl,
+        BlocProvider(
+          bloc: _trailersBloc,
+          child: TrailersListWidget(onTap: _lauchUrl),
         ),
         SizedBox(height: 16.0),
-        ReviewsStreamWidget(
-          _detailsBloc.reviews,
-          onTap: _showFullReview,
+        BlocProvider(
+          bloc: _reviewsBloc,
+          child: ReviewsListWidget(onTap: _showFullReview),
         ),
       ],
     );
@@ -152,7 +165,6 @@ class _DetailsScreenState extends State<DetailsScreen>
   @override
   void dispose() {
     _controller.dispose();
-    _detailsBloc.dispose();
     super.dispose();
   }
 }
