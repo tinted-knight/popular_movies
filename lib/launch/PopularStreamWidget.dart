@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:popular_movies/base/BaseStreamWidget.dart';
 import 'package:popular_movies/launch/PopularMoviesBloc.dart';
 import 'package:popular_movies/launch/item.dart';

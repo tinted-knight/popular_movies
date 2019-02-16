@@ -5,10 +5,10 @@ import 'package:popular_movies/launch/item.dart';
 import 'package:popular_movies/model/tmdb.dart';
 import 'package:popular_movies/styles/MovieGridStyle.dart';
 
-class PopularList extends StatelessWidget {
-  const PopularList({this.itemTap});
+class CommonMovieList extends StatelessWidget {
+  const CommonMovieList({this.onTap});
 
-  final Function(Result) itemTap;
+  final Function(Result) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,6 @@ class PopularList extends StatelessWidget {
       builder: (_, snapshot) {
         if (snapshot.data is MoviesStateLoading) {
           print("sb loading");
-          moviesBloc.loadPopularMovies();
           return Center(child: CircularProgressIndicator());
         }
         if (snapshot.data is MoviesStateData) {
@@ -55,7 +54,7 @@ class PopularList extends StatelessWidget {
             title: item.title,
             id: item.id,
           ),
-          onTap: () => itemTap(item)),
+          onTap: () => onTap(item)),
     ));
     return list;
   }

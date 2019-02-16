@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:popular_movies/base/BaseBloc.dart';
 import 'package:popular_movies/base/repo/repo.dart';
 import 'package:popular_movies/details/DetailsScreen.dart';
 import 'package:popular_movies/launch/FilterDialog.dart';
+import 'package:popular_movies/launch/CommonMovieList.dart';
 import 'package:popular_movies/launch/PopularMoviesBloc.dart';
 import 'package:popular_movies/launch/PopularStreamWidget.dart';
+import 'package:popular_movies/model/tmdb.dart';
 
 class MovieList extends StatefulWidget {
   MovieList({this.title});
@@ -18,15 +21,13 @@ class MovieList extends StatefulWidget {
 }
 
 class _MovieListState extends State<MovieList> {
-  IMovies _popularBloc;
-  MoviesFilter _filter;
+  MoviesBloc _moviesBloc;
 
   @override
   void initState() {
     print('main initState');
-    _popularBloc = MoviesBloc(Repository());
-    _popularBloc.loadPopularMovies();
-    _filter = MoviesFilter.popular;
+    _moviesBloc = MoviesBloc(repository: Repository());
+    _moviesBloc.loadMovies();
     super.initState();
   }
 
@@ -38,14 +39,11 @@ class _MovieListState extends State<MovieList> {
         title: new Text(widget.title),
         centerTitle: true,
       ),
-      body: PopularStreamWidget(
-        states: _popularBloc.states,
-        itemTap: (item) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => new DetailsScreen(movie: item)));
-        },
+      body: BlocProvider(
+        bloc: _moviesBloc,
+        child: CommonMovieList(
+          onTap: _movieItemTap,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -60,39 +58,30 @@ class _MovieListState extends State<MovieList> {
     );
   }
 
-  void _showFilterPopup() async {
-    _handleFilterOption(
-      await showModalBottomSheet<MoviesFilter>(
-          context: context,
-          builder: (_) {
-            return FilterDialog(
-              currentFilter: _filter,
-              onTap: (filter) {
-                Navigator.of(context).pop(filter);
-              },
-            );
-          }),
+  void _movieItemTap(Result item) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => new DetailsScreen(movie: item)),
     );
   }
 
-  void _handleFilterOption(MoviesFilter filter) {
-    print('_filter is $_filter, filter is $filter');
-    if (_filter == filter || filter == null) return;
-    _filter = filter;
-    switch (_filter) {
-      case MoviesFilter.popular:
-        _popularBloc.loadPopularMovies();
-        break;
-      case MoviesFilter.topRated:
-        _popularBloc.loadTopRatedMovies();
-        break;
-    }
+  void _showFilterPopup() async {
+    _moviesBloc.filter = await showModalBottomSheet<MoviesFilter>(
+        context: context,
+        builder: (_) {
+          return FilterDialog(
+            currentFilter: _moviesBloc.filter,
+            onTap: (filter) {
+              Navigator.of(context).pop(filter);
+            },
+          );
+        });
   }
 
   @override
   void dispose() {
     print('main dispose');
     super.dispose();
-    _popularBloc.dispose();
+    _moviesBloc.dispose();
   }
 }
