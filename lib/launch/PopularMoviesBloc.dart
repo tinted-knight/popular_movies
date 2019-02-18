@@ -27,27 +27,35 @@ class MoviesBloc extends BaseBloc<MoviesBlocState> {
       case MoviesFilter.topRated:
         _loadTopRatedMovies();
         break;
+      case MoviesFilter.favSP:
+        _loadFavorites();
+        break;
     }
   }
 
   void _loadPopularMovies() {
-    print('loadPopular');
     streamController.sink.add(MoviesBlocState._loading());
     repository.fetchPopularMovies().then((response) {
       if (response != null) {
-        print('loadPopularMovies, from network');
         streamController.sink.add(MoviesBlocState._values(response));
       }
     });
   }
 
   void _loadTopRatedMovies() {
-    print('loadTopRated');
     streamController.sink.add(MoviesBlocState._loading());
     repository.fetchTopRatedMovies().then((response) {
       if (response != null) {
-        print('loadTopRatedMovies, from network');
         streamController.sink.add(MoviesBlocState._values(response));
+      }
+    });
+  }
+
+  void _loadFavorites() {
+    print('favoritesFromSharedPrefs');
+    repository.fetchFavorites().then((list) {
+      if (list != null) {
+        streamController.sink.add(MoviesBlocState._valuesList(list));
       }
     });
   }
@@ -59,6 +67,8 @@ class MoviesBlocState {
   factory MoviesBlocState._loading() = MoviesStateLoading;
 
   factory MoviesBlocState._values(Tmdb values) = MoviesStateData;
+
+  factory MoviesBlocState._valuesList(List<Result> values) = MoviesStateList;
 }
 
 class MoviesStateLoading extends MoviesBlocState {}
@@ -69,4 +79,10 @@ class MoviesStateData extends MoviesBlocState {
   final Tmdb value;
 }
 
-enum MoviesFilter { popular, topRated }
+class MoviesStateList extends MoviesBlocState {
+  MoviesStateList(this.values);
+
+  final List<Result> values;
+}
+
+enum MoviesFilter { popular, topRated, favSP }

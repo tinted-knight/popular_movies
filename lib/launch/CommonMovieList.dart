@@ -27,6 +27,10 @@ class CommonMovieList extends StatelessWidget {
           MoviesStateData data = snapshot.data;
           return _buildGrid(data.value.results);
         }
+        if (snapshot.data is MoviesStateList) {
+          MoviesStateList data = snapshot.data;
+          return _buildGrid(data.values);
+        }
       },
     );
   }
@@ -47,14 +51,14 @@ class CommonMovieList extends StatelessWidget {
   List<Widget> _gridItemBuilder(List<Result> values) {
     List<Widget> list = <Widget>[];
     values.forEach((item) => list.add(
-      GestureDetector(
-          child: MovieItemWidget(
-            posterPath: item.posterPath,
-            title: item.title,
-            id: item.id,
-          ),
-          onTap: () => onTap(item)),
-    ));
+          GestureDetector(
+              child: MovieItemWidget(
+                posterPath: item.posterPath,
+                title: item.title,
+                id: item.id,
+              ),
+              onTap: () => onTap(item)),
+        ));
     return list;
   }
 }

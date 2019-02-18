@@ -14,6 +14,7 @@ class FilterDialog extends StatelessWidget {
       children: <Widget>[
         _listTile("Popular movies list", MoviesFilter.popular),
         _listTile("Top rated list", MoviesFilter.topRated),
+        _listTile("Favorites list", MoviesFilter.favSP),
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/BaseBloc.dart';
 import 'package:popular_movies/base/repo/repo.dart';
+import 'package:popular_movies/details/FavoriteLogic.dart';
 import 'package:popular_movies/details/FullReviewDialog.dart';
 import 'package:popular_movies/details/FullScreenPoster.dart';
 import 'package:popular_movies/details/PosterWithInfo.dart';
@@ -32,23 +33,23 @@ class _DetailsScreenState extends State<DetailsScreen>
   final Repository _repository = Repository();
   final String movieId;
 
-//  DetailsBloc _detailsBloc;
   TrailersBloc _trailersBloc;
   ReviewsBloc _reviewsBloc;
+  FavoriteLogic _favoriteLogic;
 
   AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-//    _detailsBloc = DetailsBloc(_repository);
-//    _detailsBloc.load(movie.id.toString());
 
     _trailersBloc = TrailersBloc(_repository);
     _trailersBloc.loadTrailers(movieId);
 
     _reviewsBloc = ReviewsBloc(_repository);
     _reviewsBloc.loadReviews(movieId);
+
+    _favoriteLogic = FavoriteLogic(repository: _repository, movie: movie);
 
     _controller =
         AnimationController(duration: Duration(milliseconds: 500), vsync: this);
@@ -99,8 +100,25 @@ class _DetailsScreenState extends State<DetailsScreen>
         title: Text(movie.title),
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.favorite_border),
+            onPressed: () => _favoriteLogic.markFavorite(),
+            icon: StreamBuilder<FavoriteState>(
+              stream: _favoriteLogic.states,
+              initialData: FavoriteState.inProgress,
+              builder: (_, snapshot) {
+                switch (snapshot.data) {
+                  case FavoriteState.marked:
+                    return Icon(Icons.favorite);
+                  case FavoriteState.notMarked:
+                    return Icon(Icons.favorite_border);
+                  case FavoriteState.inProgress:
+                    return Container(
+                      width: 20.0,
+                      height: 20.0,
+                      child: CircularProgressIndicator(),
+                    );
+                }
+              },
+            ),
           )
         ],
       )),
@@ -114,7 +132,7 @@ class _DetailsScreenState extends State<DetailsScreen>
         SizedBox(height: 16.0),
         BlocProvider(
           bloc: _trailersBloc,
-          child: TrailersListWidget(onTap: _lauchUrl),
+          child: TrailersListWidget(onTap: _launchUrl),
         ),
         SizedBox(height: 16.0),
         BlocProvider(
@@ -125,7 +143,7 @@ class _DetailsScreenState extends State<DetailsScreen>
     );
   }
 
-  void _lauchUrl(String key) async {
+  void _launchUrl(String key) async {
     var url = "https://www.youtube.com/watch?v=$key";
     if (await canLaunch(url)) {
       await launch(url);
@@ -165,6 +183,7 @@ class _DetailsScreenState extends State<DetailsScreen>
   @override
   void dispose() {
     _controller.dispose();
+    _favoriteLogic.dispose();
     super.dispose();
   }
 }

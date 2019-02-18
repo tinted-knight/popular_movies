@@ -5,6 +5,7 @@ import 'package:popular_movies/details/SectionLabel.dart';
 import 'package:popular_movies/details/trailers/TrailersBloc.dart';
 import 'package:popular_movies/model/TrailerModel.dart';
 import 'package:popular_movies/strings.dart';
+import 'package:popular_movies/styles/DetailsScreen.dart';
 
 class TrailersListWidget extends StatelessWidget {
   TrailersListWidget({this.onTap});
@@ -66,7 +67,7 @@ class _TrailerPoster extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      height: 100.0,
+      height: kTrailersPosterHeight,
       imageUrl: "https://img.youtube.com/vi/$trailerKey/0.jpg",
       placeholder: CircularProgressIndicator(),
       errorWidget: Icon(Icons.error),

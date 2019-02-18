@@ -1,16 +1,28 @@
-import 'package:popular_movies/model/ReviewModel.dart';
-import 'package:popular_movies/model/TrailerModel.dart';
-import 'package:http/http.dart' show Client;
-import 'package:popular_movies/api_key.dart';
 import 'dart:convert';
 
+import 'package:http/http.dart' show Client;
+import 'package:popular_movies/api_key.dart';
+import 'package:popular_movies/base/repo/LocalSpStorage.dart';
+import 'package:popular_movies/model/ReviewModel.dart';
+import 'package:popular_movies/model/TrailerModel.dart';
 import 'package:popular_movies/model/tmdb.dart';
 
+abstract class LocalStorage {
+  Future<bool> switchFavoriteMark(Result movie, bool currentMark);
+
+  Future<bool> checkIsFavorite(String movieId);
+
+  Future<List<Result>> getFavoritesList();
+}
+
 class Repository {
+  static const String favKey = "favs";
 
   final _urlBase = "http://api.themoviedb.org/3/";
   final _urlPopular = "movie/popular?";
   final _urlTopRated = "movie/top_rated?";
+
+  final LocalStorage _local = LocalSpStorage();
 
   Future<Tmdb> fetchPopularMovies() async {
     var client = Client();
@@ -36,10 +48,14 @@ class Repository {
     }
   }
 
+  Future<List<Result>> fetchFavorites() {
+    return _local.getFavoritesList();
+  }
+  
   Future<TrailerModel> fetchTrailers(String movieId) async {
     var client = Client();
-    final response = await client.get(
-        "https://api.themoviedb.org/3/movie/$movieId/videos?$apiKey");
+    final response = await client
+        .get("https://api.themoviedb.org/3/movie/$movieId/videos?$apiKey");
     if (response.statusCode == 200) {
       print("fetchTrailers, statusCode 200");
       return TrailerModel.fromJson(json.decode(response.body));
@@ -61,4 +77,11 @@ class Repository {
     return null;
   }
 
+  Future<bool> switchFavoriteMark(Result movie, bool currentMark) {
+    return _local.switchFavoriteMark(movie, currentMark);
+  }
+
+  Future<bool> checkIsFavorite(String movieId) {
+    return _local.checkIsFavorite(movieId);
+  }
 }
