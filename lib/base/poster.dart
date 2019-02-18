@@ -11,6 +11,23 @@ abstract class BasePosterImage extends StatelessWidget {
   String get posterUrl => _baseUrl + _qualifier + posterPath;
 }
 
+class TrailerPoster extends StatelessWidget {
+  final String trailerKey;
+  final double height;
+
+  const TrailerPoster({this.trailerKey, this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      height: height,
+      imageUrl: "https://img.youtube.com/vi/$trailerKey/0.jpg",
+      placeholder: CircularProgressIndicator(),
+      errorWidget: Icon(Icons.error),
+    );
+  }
+}
+
 class PosterHero extends BasePosterImage {
   PosterHero({String posterPath, this.aspectRatio: 0.0}) : super(posterPath);
 

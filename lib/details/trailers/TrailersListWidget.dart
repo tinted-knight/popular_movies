@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/BaseBloc.dart';
+import 'package:popular_movies/base/poster.dart';
 import 'package:popular_movies/details/SectionLabel.dart';
 import 'package:popular_movies/details/trailers/TrailersBloc.dart';
 import 'package:popular_movies/model/TrailerModel.dart';
@@ -51,26 +52,13 @@ class TrailersListWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: () => onTap(item.key),
-              child: _TrailerPoster(trailerKey: item.key),
+              child: TrailerPoster(
+                trailerKey: item.key,
+                height: kTrailersPosterHeight,
+              ),
             ),
           ),
         ));
     return list;
-  }
-}
-
-class _TrailerPoster extends StatelessWidget {
-  final String trailerKey;
-
-  const _TrailerPoster({Key key, this.trailerKey}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      height: kTrailersPosterHeight,
-      imageUrl: "https://img.youtube.com/vi/$trailerKey/0.jpg",
-      placeholder: CircularProgressIndicator(),
-      errorWidget: Icon(Icons.error),
-    );
   }
 }

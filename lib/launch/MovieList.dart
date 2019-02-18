@@ -13,20 +13,17 @@ class MovieList extends StatefulWidget {
   final String title;
 
   @override
-  _MovieListState createState() {
-    print('main createState');
-    return new _MovieListState();
-  }
+  _MovieListState createState() => new _MovieListState();
 }
 
 class _MovieListState extends State<MovieList> {
-  MoviesBloc _moviesBloc;
+  MoviesBloc moviesBloc;
 
   @override
   void initState() {
     print('main initState');
-    _moviesBloc = MoviesBloc(repository: Repository());
-    _moviesBloc.loadMovies();
+    moviesBloc = BlocProvider.of<MoviesBloc>(context);
+    moviesBloc.loadMovies();
     super.initState();
   }
 
@@ -39,7 +36,7 @@ class _MovieListState extends State<MovieList> {
         centerTitle: true,
       ),
       body: BlocProvider(
-        bloc: _moviesBloc,
+        bloc: moviesBloc,
         child: CommonMovieList(
           onTap: _movieItemTap,
         ),
@@ -65,11 +62,11 @@ class _MovieListState extends State<MovieList> {
   }
 
   void _showFilterPopup() async {
-    _moviesBloc.filter = await showModalBottomSheet<MoviesFilter>(
+    moviesBloc.filter = await showModalBottomSheet<MoviesFilter>(
         context: context,
         builder: (_) {
           return FilterDialog(
-            currentFilter: _moviesBloc.filter,
+            currentFilter: moviesBloc.filter,
             onTap: (filter) {
               Navigator.of(context).pop(filter);
             },
@@ -81,6 +78,6 @@ class _MovieListState extends State<MovieList> {
   void dispose() {
     print('main dispose');
     super.dispose();
-    _moviesBloc.dispose();
+    moviesBloc.dispose();
   }
 }

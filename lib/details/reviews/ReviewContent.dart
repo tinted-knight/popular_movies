@@ -19,12 +19,12 @@ class _ReviewContentState extends State<ReviewContent>
   final bool isExpandable;
   final String content;
 
-  bool _isExpanded = false;
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     String showValue = widget.value;
-    if (isExpandable && !_isExpanded)
+    if (isExpandable && !isExpanded)
       showValue = widget.value.substring(0, kReviewLimit);
     return AnimatedSize(
       duration: Duration(milliseconds: 100),
@@ -63,11 +63,5 @@ class _ReviewContentState extends State<ReviewContent>
       padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 0.0),
       child: Icon(Icons.more_horiz, color: Colors.white70),
     );
-  }
-
-  @override
-  void dispose() {
-//    _controller.dispose();
-    super.dispose();
   }
 }

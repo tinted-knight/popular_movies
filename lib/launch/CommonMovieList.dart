@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/BaseBloc.dart';
 import 'package:popular_movies/launch/PopularMoviesBloc.dart';
-import 'package:popular_movies/launch/item.dart';
+import 'package:popular_movies/launch/MovieItemWidget.dart';
 import 'package:popular_movies/model/tmdb.dart';
 import 'package:popular_movies/styles/MovieGridStyle.dart';
 

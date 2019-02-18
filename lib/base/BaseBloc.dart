@@ -3,12 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/repo/repo.dart';
 
-//abstract class IBloc<T> {
-//  Stream<T> get states;
-//
-//  void dispose();
-//}
-
 abstract class BaseBloc<States> {
   BaseBloc(this._repository);
 
@@ -16,14 +10,11 @@ abstract class BaseBloc<States> {
 
   final streamController = StreamController<States>();
 
-//  @override
   Stream<States> get states => streamController.stream;
 
   Repository get repository => _repository;
 
-//  @override
   void dispose() {
-//    print('_streamController dispose');
     streamController.close();
   }
 }
@@ -54,7 +45,6 @@ class BlocProvider<T extends BaseBloc> extends StatefulWidget {
 class _BlocProviderState<T> extends State<BlocProvider<BaseBloc>> {
   @override
   void dispose() {
-//    print('================ BlocProvider.dispose');
     widget.bloc.dispose();
     super.dispose();
   }

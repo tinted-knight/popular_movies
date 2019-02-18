@@ -4,8 +4,8 @@ import 'package:popular_movies/base/repo/repo.dart';
 import 'package:popular_movies/details/FavoriteLogic.dart';
 import 'package:popular_movies/details/FullReviewDialog.dart';
 import 'package:popular_movies/details/FullScreenPoster.dart';
-import 'package:popular_movies/details/PosterWithInfo.dart';
-import 'package:popular_movies/details/overview.dart';
+import 'package:popular_movies/details/poster_with_info/PosterWithInfo.dart';
+import 'package:popular_movies/details/OverviewContent.dart';
 import 'package:popular_movies/details/reviews/ReviewBloc.dart';
 import 'package:popular_movies/details/reviews/ReviewsListWidget.dart';
 import 'package:popular_movies/details/trailers/TrailersBloc.dart';
@@ -30,30 +30,30 @@ class _DetailsScreenState extends State<DetailsScreen>
   _DetailsScreenState(this.movie) : movieId = movie.id.toString();
 
   final Result movie;
-  final Repository _repository = Repository();
+  final Repository repository = Repository();
   final String movieId;
 
-  TrailersBloc _trailersBloc;
-  ReviewsBloc _reviewsBloc;
-  FavoriteLogic _favoriteLogic;
+  TrailersBloc trailersBloc;
+  ReviewsBloc reviewsBloc;
+  FavoriteLogic favoriteLogic;
 
-  AnimationController _controller;
+  AnimationController controller;
 
   @override
   void initState() {
     super.initState();
 
-    _trailersBloc = TrailersBloc(_repository);
-    _trailersBloc.loadTrailers(movieId);
+    trailersBloc = TrailersBloc(repository);
+    trailersBloc.loadTrailers(movieId);
 
-    _reviewsBloc = ReviewsBloc(_repository);
-    _reviewsBloc.loadReviews(movieId);
+    reviewsBloc = ReviewsBloc(repository);
+    reviewsBloc.loadReviews(movieId);
 
-    _favoriteLogic = FavoriteLogic(repository: _repository, movie: movie);
+    favoriteLogic = FavoriteLogic(repository: repository, movie: movie);
 
-    _controller =
+    controller =
         AnimationController(duration: Duration(milliseconds: 500), vsync: this);
-    _controller.forward();
+    controller.forward();
   }
 
   @override
@@ -87,7 +87,7 @@ class _DetailsScreenState extends State<DetailsScreen>
                   builder: (_) => FullScreenPoster(movie.posterPath, movie.id)),
             );
           },
-          child: PosterWithInfo(movie: movie, controller: _controller),
+          child: PosterWithInfo(movie: movie, controller: controller),
         ),
       ),
     );
@@ -100,9 +100,9 @@ class _DetailsScreenState extends State<DetailsScreen>
         title: Text(movie.title),
         actions: <Widget>[
           IconButton(
-            onPressed: () => _favoriteLogic.markFavorite(),
+            onPressed: () => favoriteLogic.markFavorite(),
             icon: StreamBuilder<FavoriteState>(
-              stream: _favoriteLogic.states,
+              stream: favoriteLogic.states,
               initialData: FavoriteState.inProgress,
               builder: (_, snapshot) {
                 switch (snapshot.data) {
@@ -131,12 +131,12 @@ class _DetailsScreenState extends State<DetailsScreen>
         OverviewContent(movie.overview),
         SizedBox(height: 16.0),
         BlocProvider(
-          bloc: _trailersBloc,
+          bloc: trailersBloc,
           child: TrailersListWidget(onTap: _launchUrl),
         ),
         SizedBox(height: 16.0),
         BlocProvider(
-          bloc: _reviewsBloc,
+          bloc: reviewsBloc,
           child: ReviewsListWidget(onTap: _showFullReview),
         ),
       ],
@@ -153,11 +153,11 @@ class _DetailsScreenState extends State<DetailsScreen>
   }
 
   void _showFullReview(String author, String content) {
-    _controller.reset();
-    _controller.forward();
+    controller.reset();
+    controller.forward();
 
     Animation<double> dialogAnim =
-        CurvedAnimation(parent: _controller, curve: Interval(0.0, 0.5));
+        CurvedAnimation(parent: controller, curve: Interval(0.0, 0.5));
 
     Widget dialog = GestureDetector(
       onTap: () => Navigator.of(context).pop(),
@@ -182,8 +182,8 @@ class _DetailsScreenState extends State<DetailsScreen>
 
   @override
   void dispose() {
-    _controller.dispose();
-    _favoriteLogic.dispose();
+    controller.dispose();
+    favoriteLogic.dispose();
     super.dispose();
   }
 }

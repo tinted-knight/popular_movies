@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:popular_movies/details/SectionLabel.dart';
+import 'package:popular_movies/strings.dart';
 import 'package:popular_movies/styles/DetailsScreen.dart';
 
 class OverviewContent extends StatelessWidget {
@@ -11,7 +12,7 @@ class OverviewContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SectionLabel("Overview"),
+        SectionLabel(StrRes.overview),
         Container(
           decoration: new BoxDecoration(
               color: kSectionBgColor,
@@ -28,22 +29,3 @@ class OverviewContent extends StatelessWidget {
     );
   }
 }
-
-//class OverviewContentAnimated extends StatelessWidget {
-//  const OverviewContentAnimated({this.animation, this.child});
-//
-//  final Animation<double> animation;
-//  final Widget child;
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return AnimatedBuilder(
-//      animation: animation,
-//      builder: (_, child) => Opacity(
-//            opacity: animation.value,
-//            child: child,
-//          ),
-//      child: child,
-//    );
-//  }
-//}

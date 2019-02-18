@@ -3,9 +3,10 @@ import 'package:popular_movies/base/repo/repo.dart';
 import 'package:popular_movies/model/tmdb.dart';
 
 class MoviesBloc extends BaseBloc<MoviesBlocState> {
-  MoviesBloc(
-      {Repository repository, MoviesFilter filter = MoviesFilter.popular})
-      : _filter = filter,
+  MoviesBloc({
+    Repository repository,
+    MoviesFilter filter = MoviesFilter.popular,
+  })  : _filter = filter,
         super(repository);
 
   MoviesFilter _filter;
