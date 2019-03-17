@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:popular_movies/base/BaseBloc.dart';
-import 'package:popular_movies/base/repo/repo.dart';
-import 'package:popular_movies/favorites/Favorites.dart';
-import 'package:popular_movies/favorites/FavoritesBloc.dart';
-import 'package:popular_movies/launch/MovieList.dart';
-import 'package:popular_movies/launch/PopularMoviesBloc.dart';
-import 'package:popular_movies/styles/Theme.dart';
+import 'package:popular_movies/base/logic/BaseBloc.dart';
+import 'package:popular_movies/logic/FavoriteListBloc.dart';
+import 'package:popular_movies/logic/PopularMoviesBloc.dart';
+import 'package:popular_movies/logic/repository/Repository.dart';
+import 'package:popular_movies/logic/repository/SQLiteStorage.dart';
+import 'package:popular_movies/views/favorites_screen/screen_favorites.dart';
+import 'package:popular_movies/views/launch_screen/screen_movieList.dart';
+import 'package:popular_movies/views/styles/Theme.dart';
 
 var urlBase = "http://api.themoviedb.org/3/";
 var urlPopular = "movie/popular?";
@@ -25,23 +26,13 @@ class Home extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => BlocProvider(
-              bloc: MoviesBloc(repository: Repository()),
-              child: MovieList(title: 'Flutter Demo (Tmdb Api)'),
+              bloc: MoviesBloc(repository: Repository(SQLiteStorage())),
+              child: MovieListScreen(title: 'Flutter Demo (Tmdb Api)'),
             ),
         '/favorites': (context) => BlocProvider(
-              bloc: FavoritesBloc(Repository()),
-              child: Favorites(filter: MoviesFilter.favDB),
+              bloc: FavoriteListBloc(Repository(SQLiteStorage())),
+              child: FavoritesScreen(),
             ),
-      },
-      onGenerateRoute: (settings) {
-        if (settings.name == '/favorites') {
-          return MaterialPageRoute(
-              settings: settings,
-              builder: (context) => BlocProvider(
-                    bloc: FavoritesBloc(Repository()),
-                    child: Favorites(filter: MoviesFilter.favDB),
-                  ));
-        }
       },
     );
   }
