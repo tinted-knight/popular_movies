@@ -1,38 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:popular_movies/base/BaseBloc.dart';
-import 'package:popular_movies/launch/PopularMoviesBloc.dart';
 import 'package:popular_movies/launch/MovieItemWidget.dart';
 import 'package:popular_movies/model/tmdb.dart';
 import 'package:popular_movies/styles/MovieGridStyle.dart';
 
-class CommonMovieList extends StatelessWidget {
-  const CommonMovieList({this.onTap});
+class SimpleMovieList extends StatelessWidget {
+  const SimpleMovieList({this.onTap, this.items});
 
   final Function(Result) onTap;
+  final List<Result> items;
 
   @override
   Widget build(BuildContext context) {
-    final MoviesBloc moviesBloc = BlocProvider.of<MoviesBloc>(context);
-
-    return StreamBuilder<MoviesBlocState>(
-      stream: moviesBloc.states,
-      initialData: MoviesStateLoading(),
-      builder: (_, snapshot) {
-        if (snapshot.data is MoviesStateLoading) {
-          print("sb loading");
-          return Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.data is MoviesStateData) {
-          print("sb done");
-          MoviesStateData data = snapshot.data;
-          return _buildGrid(data.value.results);
-        }
-        if (snapshot.data is MoviesStateList) {
-          MoviesStateList data = snapshot.data;
-          return _buildGrid(data.values);
-        }
-      },
-    );
+    return _buildGrid(items);
   }
 
   Widget _buildGrid(List<Result> values) {

@@ -31,6 +31,8 @@ class MoviesBloc extends BaseBloc<MoviesBlocState> {
       case MoviesFilter.favSP:
         _loadFavorites();
         break;
+      case MoviesFilter.favDB:
+        break;
     }
   }
 
@@ -54,7 +56,7 @@ class MoviesBloc extends BaseBloc<MoviesBlocState> {
 
   void _loadFavorites() {
     print('favoritesFromSharedPrefs');
-    repository.fetchFavorites().then((list) {
+    repository.fetchFavoritesSharedPrefs().then((list) {
       if (list != null) {
         streamController.sink.add(MoviesBlocState._valuesList(list));
       }
@@ -86,4 +88,4 @@ class MoviesStateList extends MoviesBlocState {
   final List<Result> values;
 }
 
-enum MoviesFilter { popular, topRated, favSP }
+enum MoviesFilter { popular, topRated, favSP, favDB }

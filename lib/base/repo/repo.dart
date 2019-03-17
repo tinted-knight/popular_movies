@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' show Client;
 import 'package:popular_movies/api_key.dart';
 import 'package:popular_movies/base/repo/LocalSpStorage.dart';
+import 'package:popular_movies/base/repo/SQLiteStorage.dart';
 import 'package:popular_movies/model/ReviewModel.dart';
 import 'package:popular_movies/model/TrailerModel.dart';
 import 'package:popular_movies/model/tmdb.dart';
@@ -23,6 +24,7 @@ class Repository {
   final _urlTopRated = "movie/top_rated?";
 
   final LocalStorage _local = LocalSpStorage();
+  final SQLiteStorage _sqlite = SQLiteStorage();
 
   Future<Tmdb> fetchPopularMovies() async {
     var client = Client();
@@ -48,10 +50,14 @@ class Repository {
     }
   }
 
-  Future<List<Result>> fetchFavorites() {
+  Future<List<Result>> fetchFavoritesSharedPrefs() {
     return _local.getFavoritesList();
   }
-  
+
+  Future<List<Result>> fetchFavoritesDb() {
+    return _sqlite.getFavoritesList();
+  }
+
   Future<TrailerModel> fetchTrailers(String movieId) async {
     var client = Client();
     final response = await client
@@ -78,6 +84,9 @@ class Repository {
   }
 
   Future<bool> switchFavoriteMark(Result movie, bool currentMark) {
+    _sqlite.switchFavoriteMark(movie, currentMark).then((res) {
+      print('Repository.switchFavoriteMark, $res');
+    });
     return _local.switchFavoriteMark(movie, currentMark);
   }
 

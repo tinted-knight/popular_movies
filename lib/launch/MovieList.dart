@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/BaseBloc.dart';
-import 'package:popular_movies/base/repo/repo.dart';
 import 'package:popular_movies/details/DetailsScreen.dart';
-import 'package:popular_movies/launch/CommonMovieList.dart';
+import 'package:popular_movies/favorites/MovieList.dart';
 import 'package:popular_movies/launch/FilterDialog.dart';
 import 'package:popular_movies/launch/PopularMoviesBloc.dart';
 import 'package:popular_movies/model/tmdb.dart';
@@ -29,17 +28,36 @@ class _MovieListState extends State<MovieList> {
 
   @override
   Widget build(BuildContext context) {
-    print('main build');
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
+      appBar: AppBar(
+        title: Text(widget.title),
         centerTitle: true,
       ),
-      body: BlocProvider(
-        bloc: moviesBloc,
-        child: CommonMovieList(
-          onTap: _movieItemTap,
-        ),
+      body: StreamBuilder<MoviesBlocState>(
+        stream: moviesBloc.states,
+        initialData: MoviesStateLoading(),
+        builder: (_, snapshot) {
+          if (snapshot.data is MoviesStateLoading) {
+            print("sb loading");
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.data is MoviesStateData) {
+            print("sb done");
+            MoviesStateData data = snapshot.data;
+            return SimpleMovieList(
+              onTap: _movieItemTap,
+              items: data.value.results,
+            );
+          }
+          // favorite list from SharedPreferences
+          if (snapshot.data is MoviesStateList) {
+            MoviesStateList data = snapshot.data;
+            return SimpleMovieList(
+              onTap: _movieItemTap,
+              items: data.values,
+            );
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -62,7 +80,7 @@ class _MovieListState extends State<MovieList> {
   }
 
   void _showFilterPopup() async {
-    moviesBloc.filter = await showModalBottomSheet<MoviesFilter>(
+    var filter = await showModalBottomSheet<MoviesFilter>(
         context: context,
         builder: (_) {
           return FilterDialog(
@@ -72,7 +90,18 @@ class _MovieListState extends State<MovieList> {
             },
           );
         });
+    if (filter == MoviesFilter.favDB) {
+      // show in new screen
+      _gotoFavoritesScreen();
+    } else if (filter == MoviesFilter.favSP) {
+      _gotoFavoritesScreen();
+    } else {
+      // stay in current screen, just apply filter
+      moviesBloc.filter = filter;
+    }
   }
+
+  _gotoFavoritesScreen() => Navigator.of(context).pushNamed('/favorites');
 
   @override
   void dispose() {

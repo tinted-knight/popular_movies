@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 abstract class BasePosterImage extends StatelessWidget {
   final String _baseUrl = "http://image.tmdb.org/t/p/";
@@ -19,11 +19,9 @@ class TrailerPoster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
+    return Image.network(
+      "https://img.youtube.com/vi/$trailerKey/0.jpg",
       height: height,
-      imageUrl: "https://img.youtube.com/vi/$trailerKey/0.jpg",
-      placeholder: CircularProgressIndicator(),
-      errorWidget: Icon(Icons.error),
     );
   }
 }
@@ -45,11 +43,12 @@ class PosterHero extends BasePosterImage {
   Widget _heroImage() {
     return Hero(
       tag: posterPath,
-      child: CachedNetworkImage(
-        imageUrl: this.posterUrl,
-        errorWidget: Icon(Icons.error),
+      child: FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: posterUrl,
         fit: BoxFit.fitWidth,
       ),
+//      child: Image.network(this.posterUrl, fit: BoxFit.fitWidth),
     );
   }
 }

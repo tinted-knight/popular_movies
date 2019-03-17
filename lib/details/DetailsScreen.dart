@@ -62,7 +62,7 @@ class _DetailsScreenState extends State<DetailsScreen>
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
-            _builAppBar(),
+            _buildAppBar(),
             _buildPersistentHeader(),
           ];
         },
@@ -71,7 +71,7 @@ class _DetailsScreenState extends State<DetailsScreen>
     );
   }
 
-  Widget _builAppBar() {
+  Widget _buildAppBar() {
     return SliverAppBar(
       automaticallyImplyLeading: false,
       pinned: false,

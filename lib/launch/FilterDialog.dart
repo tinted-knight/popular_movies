@@ -14,10 +14,12 @@ class FilterDialog extends StatelessWidget {
       children: <Widget>[
         _listTile("Popular movies list", MoviesFilter.popular),
         _listTile("Top rated list", MoviesFilter.topRated),
-        _listTile("Favorites list", MoviesFilter.favSP),
+        _listTile("Favorites list in SP", MoviesFilter.favSP),
+        _listTile("Favorites list in DB", MoviesFilter.favDB),
       ],
     );
   }
+
   Widget _listTile(String title, MoviesFilter filter) {
     return Center(
       child: ListTile(
@@ -25,7 +27,9 @@ class FilterDialog extends StatelessWidget {
         title: Text(title),
         leading: Icon(
           Icons.check,
-          color: currentFilter == filter ? Colors.yellowAccent : Colors.transparent,
+          color: currentFilter == filter
+              ? Colors.yellowAccent
+              : Colors.transparent,
         ),
       ),
     );
