@@ -1,6 +1,5 @@
 import 'package:popular_movies/base/logic/BaseBloc.dart';
 import 'package:popular_movies/base/repo/IRepository.dart';
-import 'package:popular_movies/logic/repository/Repository.dart';
 import 'package:popular_movies/model/tmdb.dart';
 
 class MoviesBloc extends BaseBloc<MoviesBlocState> {

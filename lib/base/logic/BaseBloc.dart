@@ -1,15 +1,26 @@
 import 'dart:async';
+import 'package:rxdart/subjects.dart';
 
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/repo/IRepository.dart';
-import 'package:popular_movies/logic/repository/Repository.dart';
 
 abstract class BaseBloc<States> {
   BaseBloc(this._repository);
 
   final IRepository _repository;
 
-  final streamController = StreamController<States>();
+//  final streamController_old = StreamController<States>.broadcast();
+
+  final streamController = BehaviorSubject<States>();
+
+  void pushState(States state) {
+    if (!streamController.isClosed) {
+//      print('pushState (${States.toString()}), success');
+      streamController.sink.add(state);
+    } else {
+//      print('pushState (${States.toString()}), closed');
+    }
+  }
 
   Stream<States> get states => streamController.stream;
 
@@ -17,6 +28,7 @@ abstract class BaseBloc<States> {
   IRepository get repository => _repository;
 
   void dispose() {
+//    print('BaseBloc.dispose, ${States.toString()}');
     streamController.close();
   }
 }

@@ -1,11 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' show Client;
-import 'package:meta/meta.dart';
 import 'package:popular_movies/api_key.dart';
 import 'package:popular_movies/base/repo/IRepository.dart';
-import 'package:popular_movies/logic/repository/SharedPrefsStorage.dart';
-import 'package:popular_movies/logic/repository/SQLiteStorage.dart';
 import 'package:popular_movies/model/ReviewModel.dart';
 import 'package:popular_movies/model/TrailerModel.dart';
 import 'package:popular_movies/model/tmdb.dart';

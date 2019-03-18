@@ -14,6 +14,7 @@ class ReviewListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('ReviewListWidget.build');
     final ReviewsBloc reviewsBloc = BlocProvider.of<ReviewsBloc>(context);
 
     return StreamBuilder<ReviewsBlocState>(
@@ -21,11 +22,17 @@ class ReviewListWidget extends StatelessWidget {
       initialData: ReviewsStateLoading(),
       builder: (_, snapshot) {
         if (snapshot.data is ReviewsStateLoading) {
+          print('review, loading');
           return Center(child: CircularProgressIndicator());
         }
         if (snapshot.data is ReviewsStateData) {
+          print('review, data');
           ReviewsStateData state = snapshot.data;
           return _buildReviews(state.reviews);
+        }
+        if (snapshot.data is ReviewsStateEmpty) {
+          print('review, empty');
+          return Container(width: 0.0, height: 0.0);
         }
       },
     );
