@@ -29,7 +29,8 @@ Result _$ResultFromJson(Map<String, dynamic> json) {
       json['release_date'] as String,
       json['overview'] as String,
       json['vote_average'] as num,
-      json['id'] as num);
+      json['id'] as num,
+      json['backdrop_path'] as String);
 }
 
 abstract class _$ResultSerializerMixin {
@@ -37,6 +38,7 @@ abstract class _$ResultSerializerMixin {
   String get title;
   num get voteAverage;
   String get posterPath;
+  String get backdropPath;
   String get releaseDate;
   String get overview;
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -44,6 +46,7 @@ abstract class _$ResultSerializerMixin {
         'title': title,
         'vote_average': voteAverage,
         'poster_path': posterPath,
+        'backdrop_path': backdropPath,
         'release_date': releaseDate,
         'overview': overview
       };

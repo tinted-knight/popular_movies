@@ -24,13 +24,16 @@ class Result extends Object with _$ResultSerializerMixin {
   @JsonKey(name: "poster_path")
   final String posterPath;
 
+  @JsonKey(name: "backdrop_path")
+  final String backdropPath;
+
   @JsonKey(name: "release_date")
   final String releaseDate;
 
   final String overview;
 
   Result(this.title, this.posterPath, this.releaseDate, this.overview,
-      this.voteAverage, this.id);
+      this.voteAverage, this.id, this.backdropPath);
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
 }

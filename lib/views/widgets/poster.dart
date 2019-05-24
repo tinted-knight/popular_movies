@@ -11,6 +11,19 @@ abstract class BasePosterImage extends StatelessWidget {
   String get posterUrl => _baseUrl + _qualifier + posterPath;
 }
 
+class BackdropPoster extends BasePosterImage {
+  BackdropPoster({String posterPath}) : super(posterPath);
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeInImage.memoryNetwork(
+      placeholder: kTransparentImage,
+      image: posterUrl,
+      fit: BoxFit.fitWidth,
+    );
+  }
+}
+
 class PosterHero extends BasePosterImage {
   PosterHero({String posterPath, this.aspectRatio: 0.0}) : super(posterPath);
 

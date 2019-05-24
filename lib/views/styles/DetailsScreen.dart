@@ -1,6 +1,7 @@
 import 'dart:ui';
 
-const kAppBarHeight = 245.0;
+// const kAppBarHeight = 245.0;
+const kAppBarHeight = 180.0;
 
 const kPosterAppBarRatio = 4.0 / 3.0;
 

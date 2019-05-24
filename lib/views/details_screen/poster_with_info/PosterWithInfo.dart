@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:popular_movies/views/widgets/poster.dart';
 import 'package:popular_movies/model/tmdb.dart';
 import 'package:popular_movies/views/details_screen/poster_with_info/RatingWidget.dart';
 import 'package:popular_movies/views/details_screen/poster_with_info/ReleaseDateWidget.dart';
-import 'package:popular_movies/views/styles/DetailsScreen.dart';
+import 'package:popular_movies/views/widgets/poster.dart';
 
 class PosterWithInfo extends StatelessWidget {
   final AnimationController controller;
@@ -19,10 +18,13 @@ class PosterWithInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Stack(
       children: <Widget>[
-        PosterHero(
-          posterPath: movie.posterPath,
-          aspectRatio: kPosterAppBarRatio,
+        Positioned(
+          bottom: 4.0,
+          left: 4.0,
+          height: 150.0,
+          child: PosterHero(posterPath: movie.posterPath),
         ),
+        BackdropPoster(posterPath: movie.backdropPath),
         _ratingAndDate(),
       ],
     );
