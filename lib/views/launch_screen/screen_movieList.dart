@@ -58,6 +58,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
               items: data.values,
             );
           }
+          return null;
         },
       ),
       floatingActionButton: FloatingActionButton(

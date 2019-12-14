@@ -14,6 +14,7 @@ class MovieItemWidget extends StatelessWidget {
     return Stack(children: <Widget>[
       PosterHero(
         posterPath: this.posterPath,
+        heroTag: this.posterPath,
         aspectRatio: kGridItemAspectRatio,
       ),
       MoviePosterTitle(this.title)

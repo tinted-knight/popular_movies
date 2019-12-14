@@ -87,7 +87,7 @@ class _DetailsScreenState extends State<DetailsScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (_) => FullScreenPoster(movie.posterPath, movie.id)),
+                  builder: (_) => FullScreenPoster(movie.backdropPath, movie.id)),
             );
           },
           child: PosterWithInfo(movie: movie, controller: controller),

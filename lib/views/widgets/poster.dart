@@ -11,6 +11,26 @@ abstract class BasePosterImage extends StatelessWidget {
   String get posterUrl => _baseUrl + _qualifier + posterPath;
 }
 
+class BackdropPosterHero extends BasePosterImage {
+  BackdropPosterHero({String backdropPath, this.heroTag}) : super(backdropPath);
+
+  final String heroTag;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Hero(
+        tag: heroTag,
+        child: FadeInImage.memoryNetwork(
+          placeholder: kTransparentImage,
+          image: posterUrl,
+          fit: BoxFit.fitWidth,
+        ),
+      ),
+    );
+  }
+}
+
 class BackdropPoster extends BasePosterImage {
   BackdropPoster({String posterPath}) : super(posterPath);
 
@@ -25,7 +45,7 @@ class BackdropPoster extends BasePosterImage {
 }
 
 class PosterHero extends BasePosterImage {
-  PosterHero({String posterPath, this.aspectRatio: 0.0}) : super(posterPath);
+  PosterHero({String posterPath, String heroTag, this.aspectRatio: 0.0}) : super(posterPath);
 
   final double aspectRatio;
 

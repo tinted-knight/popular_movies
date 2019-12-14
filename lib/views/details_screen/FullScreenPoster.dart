@@ -13,7 +13,10 @@ class FullScreenPoster extends StatelessWidget {
     return Scaffold(
       appBar: null,
       body: Stack(children: <Widget>[
-        PosterHero(posterPath: posterPath),
+        BackdropPosterHero(
+          backdropPath: posterPath,
+          heroTag: movieId.toString(),
+        ),
         Positioned(
           top: 0.0,
           left: 0.0,

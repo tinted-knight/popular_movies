@@ -22,9 +22,15 @@ class PosterWithInfo extends StatelessWidget {
           bottom: 4.0,
           left: 4.0,
           height: 150.0,
-          child: PosterHero(posterPath: movie.posterPath),
+          child: PosterHero(
+            posterPath: movie.posterPath,
+            heroTag: movie.posterPath,
+          ),
         ),
-        BackdropPoster(posterPath: movie.backdropPath),
+        BackdropPosterHero(
+          backdropPath: movie.backdropPath,
+          heroTag: movie.id.toString(),
+        ),
         _ratingAndDate(),
       ],
     );
