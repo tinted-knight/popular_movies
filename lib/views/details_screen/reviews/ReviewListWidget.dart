@@ -34,6 +34,7 @@ class ReviewListWidget extends StatelessWidget {
           print('review, empty');
           return Container(width: 0.0, height: 0.0);
         }
+        return null;
       },
     );
   }

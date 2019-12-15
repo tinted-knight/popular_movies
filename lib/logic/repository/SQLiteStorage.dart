@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:popular_movies/base/repo/IRepository.dart';
-import 'package:popular_movies/logic/repository/Repository.dart';
 import 'package:popular_movies/model/tmdb.dart';
 import 'package:sqflite/sqflite.dart';
 

@@ -29,6 +29,7 @@ class FavoritesScreen extends StatelessWidget {
               items: state.values,
             );
           }
+          return null;
         },
       ),
     );

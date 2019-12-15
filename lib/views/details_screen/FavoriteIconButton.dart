@@ -26,6 +26,7 @@ class FavoriteIconButton extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
           }
+          return null;
         },
       ),
     );
