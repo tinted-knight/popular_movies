@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pinch_zoom_image/pinch_zoom_image.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 abstract class BasePosterImage extends StatelessWidget {
@@ -22,12 +21,10 @@ class BackdropPosterHero extends BasePosterImage {
     return Center(
       child: Hero(
         tag: heroTag,
-        child: PinchZoomImage(
-          image: FadeInImage.memoryNetwork(
-            placeholder: kTransparentImage,
-            image: posterUrl,
-            fit: BoxFit.fitWidth,
-          ),
+        child: FadeInImage.memoryNetwork(
+          placeholder: kTransparentImage,
+          image: posterUrl,
+          fit: BoxFit.fitWidth,
         ),
       ),
     );

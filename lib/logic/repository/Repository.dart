@@ -29,6 +29,7 @@ class Repository
       return Tmdb.fromJson(json.decode(response.body)).results;
     } else {
       print("fetchPopularMovies, error");
+      print(response.body);
       return null;
     }
   }
