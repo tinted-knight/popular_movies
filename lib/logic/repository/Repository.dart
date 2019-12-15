@@ -9,7 +9,7 @@ import 'package:popular_movies/model/TrailerModel.dart';
 import 'package:popular_movies/model/tmdb.dart';
 
 class Repository
-    implements IRepository<Result, TrailerItem, ReviewItem, PosterItem> {
+    implements IRepository<Result, TrailerItem, ReviewItem, BackdropModel> {
   static const String favKey = "favs";
 
   final _urlBase = "http://api.themoviedb.org/3/";
@@ -80,13 +80,13 @@ class Repository
   }
 
   @override
-  Future<List<PosterItem>> fetchBackdrops(String movieId) async {
+  Future<BackdropModel> fetchBackdrops(String movieId) async {
     var client = Client();
     final response = await client
         .get("https://api.themoviedb.org/3/movie/$movieId/images?$apiKey");
     if (response.statusCode == 200) {
       print("fetchBackdrops, status code 200");
-      return BackdropModel.fromJson(json.decode(response.body)).backdrops;
+      return BackdropModel.fromJson(json.decode(response.body));
     } else {
       print("fetchBackdrops, error");
       return null;

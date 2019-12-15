@@ -7,9 +7,9 @@ class BackdropBloc extends BaseBloc<BackdropBlocState> {
 
   void loadBackdrops(String movieId) {
     streamController.sink.add(BackdropBlocState._loading());
-    repository.fetchBackdrops(movieId).then((backdrops) {
-      if (backdrops != null && backdrops.length > 0) {
-        streamController.sink.add(BackdropBlocState._values(backdrops));
+    repository.fetchBackdrops(movieId).then((backdropData) {
+      if (backdropData != null) {
+        streamController.sink.add(BackdropBlocState._values(backdropData));
       }
     });
   }
@@ -20,14 +20,14 @@ class BackdropBlocState {
 
   factory BackdropBlocState._loading() = BackdropStateLoading;
 
-  factory BackdropBlocState._values(List<PosterItem> backdropItems) =
+  factory BackdropBlocState._values(BackdropModel backdropItems) =
       BackdropStateValues;
 }
 
 class BackdropStateLoading extends BackdropBlocState {}
 
 class BackdropStateValues extends BackdropBlocState {
-  BackdropStateValues(this.backdropItems);
+  BackdropStateValues(this.values);
 
-  final List<PosterItem> backdropItems;
+  final BackdropModel values;
 }

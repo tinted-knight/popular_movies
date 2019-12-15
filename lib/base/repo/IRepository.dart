@@ -9,7 +9,7 @@ abstract class IRepository<TMovie, TTrailer, TReview, TBackdrop> {
 
   Future<List<TReview>> fetchReviews(String movieId);
 
-  Future<List<TBackdrop>> fetchBackdrops(String movieId);
+  Future<TBackdrop> fetchBackdrops(String movieId);
 
   Future<bool> switchFavoriteMark(TMovie movie, bool currentMark);
 

@@ -47,27 +47,32 @@ class FullscreenBackdrop extends StatelessWidget {
     }
     if (snapshot.data is BackdropStateValues) {
       BackdropStateValues state = snapshot.data;
-      return _pageView(state.backdropItems, context);
+      return _pageView(
+        context: context,
+        posterItems: state.values.backdrops,
+        heroTag: state.values.id.toString(),
+      );
     }
     return null;
   }
 
-  Widget _pageView(List<PosterItem> posterItems, BuildContext context) {
-    List<Widget> backdropPaths = [];
-    posterItems.forEach(
-        (item) => backdropPaths.add(_pageViewItem(item.path, context)));
-
+  Widget _pageView(
+      {BuildContext context, List<PosterItem> posterItems, String heroTag}) {
     var pageController = PageController(initialPage: 0);
     return PageView.builder(
       controller: pageController,
-      itemBuilder: (ctx, index) => _pageViewItem(posterItems[index].path, ctx),
+      itemBuilder: (ctx, index) => _pageViewItem(
+        context: ctx,
+        path: posterItems[index].path,
+        heroTag: heroTag
+      ),
     );
   }
 
-  Widget _pageViewItem(String path, BuildContext context) {
+  Widget _pageViewItem({String path, BuildContext context, String heroTag}) {
     return BackdropPosterHero(
       backdropPath: path,
-      heroTag: path,
+      heroTag: heroTag,
     );
   }
 }

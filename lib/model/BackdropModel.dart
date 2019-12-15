@@ -13,6 +13,8 @@ class BackdropModel {
   }
 
   List<PosterItem> get backdrops => _backdrops;
+
+  int get id => _id;
 }
 
 class PosterItem {
