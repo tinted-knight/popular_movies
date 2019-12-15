@@ -1,4 +1,4 @@
-abstract class IRepository<TMovie, TTrailer, TReview> {
+abstract class IRepository<TMovie, TTrailer, TReview, TBackdrop> {
   Future<List<TMovie>> fetchPopularMovies();
 
   Future<List<TMovie>> fetchTopRatedMovies();
@@ -8,6 +8,8 @@ abstract class IRepository<TMovie, TTrailer, TReview> {
   Future<List<TTrailer>> fetchTrailers(String movieId);
 
   Future<List<TReview>> fetchReviews(String movieId);
+
+  Future<List<TBackdrop>> fetchBackdrops(String movieId);
 
   Future<bool> switchFavoriteMark(TMovie movie, bool currentMark);
 

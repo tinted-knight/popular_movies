@@ -27,6 +27,7 @@ class TrailerListWidget extends StatelessWidget {
           TrailersStateValues state = snapshot.data;
           return _buildTrailers(state.trailers);
         }
+        return null;
       },
     );
   }

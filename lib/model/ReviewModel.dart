@@ -18,7 +18,6 @@ class ReviewModel {
   int get page => _page;
 
   int get id => _id;
-
 }
 
 class ReviewItem {

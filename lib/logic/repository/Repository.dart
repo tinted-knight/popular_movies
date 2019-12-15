@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:http/http.dart' show Client;
 import 'package:popular_movies/api_key.dart';
 import 'package:popular_movies/base/repo/IRepository.dart';
+import 'package:popular_movies/model/BackdropModel.dart';
 import 'package:popular_movies/model/ReviewModel.dart';
 import 'package:popular_movies/model/TrailerModel.dart';
 import 'package:popular_movies/model/tmdb.dart';
 
-class Repository implements IRepository<Result, TrailerItem, ReviewItem> {
+class Repository
+    implements IRepository<Result, TrailerItem, ReviewItem, PosterItem> {
   static const String favKey = "favs";
 
   final _urlBase = "http://api.themoviedb.org/3/";
@@ -71,9 +73,24 @@ class Repository implements IRepository<Result, TrailerItem, ReviewItem> {
     if (response.statusCode == 200) {
       print("fetchReviews, status code 200");
       return ReviewModel.fromJson(json.decode(response.body)).results;
-    } else
+    } else {
       print("fetchReviews, error");
-    return null;
+      return null;
+    }
+  }
+
+  @override
+  Future<List<PosterItem>> fetchBackdrops(String movieId) async {
+    var client = Client();
+    final response = await client
+        .get("https://api.themoviedb.org/3/movie/$movieId/images?$apiKey");
+    if (response.statusCode == 200) {
+      print("fetchBackdrops, status code 200");
+      return BackdropModel.fromJson(json.decode(response.body)).backdrops;
+    } else {
+      print("fetchBackdrops, error");
+      return null;
+    }
   }
 
   @override

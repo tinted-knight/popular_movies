@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/logic/BaseBloc.dart';
-import 'package:popular_movies/logic/repository/Repository.dart';
 import 'package:popular_movies/logic/DetailsMarkFavoriteBloc.dart';
+import 'package:popular_movies/logic/ReviewBloc.dart';
+import 'package:popular_movies/logic/TrailersBloc.dart';
+import 'package:popular_movies/logic/repository/Repository.dart';
 import 'package:popular_movies/logic/repository/SQLiteStorage.dart';
-import 'package:popular_movies/views/details_screen/poster_with_info/PosterWithInfo.dart';
+import 'package:popular_movies/model/tmdb.dart';
 import 'package:popular_movies/views/details_screen/FavoriteIconButton.dart';
 import 'package:popular_movies/views/details_screen/FullReviewDialog.dart';
-import 'package:popular_movies/views/details_screen/FullScreenPoster.dart';
 import 'package:popular_movies/views/details_screen/OverviewContent.dart';
-import 'package:popular_movies/logic/ReviewBloc.dart';
+import 'package:popular_movies/views/details_screen/poster_with_info/PosterWithInfo.dart';
 import 'package:popular_movies/views/details_screen/reviews/ReviewListWidget.dart';
-import 'package:popular_movies/logic/TrailersBloc.dart';
 import 'package:popular_movies/views/details_screen/trailers/TrailerListWidget.dart';
-import 'package:popular_movies/model/tmdb.dart';
+import 'package:popular_movies/views/fullscreen_backdrop/FullscreenBackdrop.dart';
 import 'package:popular_movies/views/styles/DetailsScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -87,7 +87,10 @@ class _DetailsScreenState extends State<DetailsScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (_) => FullScreenPoster(movie.backdropPath, movie.id)),
+                  builder: (_) => FullscreenBackdrop(
+                        movieId: movie.id,
+                        repository: repository,
+                      )),
             );
           },
           child: PosterWithInfo(movie: movie, controller: controller),
@@ -156,10 +159,10 @@ class _DetailsScreenState extends State<DetailsScreen>
         return AnimatedBuilder(
           animation: dialogAnim,
           builder: (_, child) => FractionallySizedBox(
-                widthFactor: 1.0,
-                heightFactor: dialogAnim.value,
-                child: dialog,
-              ),
+            widthFactor: 1.0,
+            heightFactor: dialogAnim.value,
+            child: dialog,
+          ),
           child: dialog,
         );
       },
@@ -170,6 +173,7 @@ class _DetailsScreenState extends State<DetailsScreen>
   void dispose() {
     controller.dispose();
     favoriteBloc.dispose();
+    trailersBloc.dispose();
     super.dispose();
   }
 }
