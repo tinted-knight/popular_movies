@@ -77,6 +77,7 @@ class DBProvider {
             "title TEXT, "
             "vote_average INTEGER, "
             "poster_path TEXT, "
+            "backdrop_path TEXT, "
             "release_date TEXT, "
             "overview TEXT)");
       },

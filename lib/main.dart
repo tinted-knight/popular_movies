@@ -20,17 +20,19 @@ var myTheme = darkTheme;
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Repository repository = Repository(SQLiteStorage());
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: myTheme,
       initialRoute: '/',
       routes: {
         '/': (context) => BlocProvider(
-              bloc: MoviesBloc(repository: Repository(SQLiteStorage())),
+              bloc: MoviesBloc(repository: repository),
               child: MovieListScreen(title: 'Flutter Demo (Tmdb Api)'),
             ),
         '/favorites': (context) => BlocProvider(
-              bloc: FavoriteListBloc(Repository(SQLiteStorage())),
+              bloc: FavoriteListBloc(repository),
               child: FavoritesScreen(),
             ),
       },
