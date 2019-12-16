@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:popular_movies/base/logic/BaseBloc.dart';
 import 'package:popular_movies/logic/PopularMoviesBloc.dart';
 import 'package:popular_movies/model/tmdb.dart';
-import 'package:popular_movies/views/widgets/SimpleMovieList.dart';
 import 'package:popular_movies/views/details_screen/screen_details.dart';
 import 'package:popular_movies/views/launch_screen/FilterDialog.dart';
+import 'package:popular_movies/views/widgets/SimpleMovieList.dart';
 
 // TODO: Is it posible to refactor to Stateless?
 class MovieListScreen extends StatefulWidget {
@@ -77,7 +77,11 @@ class _MovieListScreenState extends State<MovieListScreen> {
   void _movieItemTap(Result item) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => DetailsScreen(movie: item)),
+      MaterialPageRoute(
+          builder: (_) => DetailsScreen(
+                movie: item,
+                repository: moviesBloc.repository,
+              )),
     );
   }
 

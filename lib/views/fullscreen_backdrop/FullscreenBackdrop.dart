@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:popular_movies/base/logic/BaseBloc.dart';
 import 'package:popular_movies/base/repo/IRepository.dart';
 import 'package:popular_movies/logic/BackdropBloc.dart';
-import 'package:popular_movies/base/logic/BaseBloc.dart';
 import 'package:popular_movies/model/BackdropModel.dart';
 import 'package:popular_movies/views/widgets/AppBarTransparent.dart';
 import 'package:popular_movies/views/widgets/poster.dart';
@@ -15,21 +15,19 @@ class FullscreenBackdrop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var backdrops = BackdropBloc(repository);
-    backdrops.loadBackdrops(movieId.toString());
+//    var backdrops = BackdropBloc(repository);
+//    backdrops.loadBackdrops(movieId.toString());
+    final BackdropBloc bloc = BlocProvider.of<BackdropBloc>(context);
 
     return Scaffold(
       appBar: null,
       body: Stack(
         children: <Widget>[
           Center(
-            child: BlocProvider(
-              bloc: backdrops,
-              child: StreamBuilder<BackdropBlocState>(
-                stream: backdrops.states,
-                initialData: BackdropStateLoading(),
-                builder: _buildFromStream,
-              ),
+            child: StreamBuilder<BackdropBlocState>(
+              stream: bloc.states,
+              initialData: BackdropStateLoading(),
+              builder: _buildFromStream,
             ),
           ),
           AppBarTransparent(),
@@ -62,10 +60,7 @@ class FullscreenBackdrop extends StatelessWidget {
     return PageView.builder(
       controller: pageController,
       itemBuilder: (ctx, index) => _pageViewItem(
-        context: ctx,
-        path: posterItems[index].path,
-        heroTag: heroTag
-      ),
+          context: ctx, path: posterItems[index].path, heroTag: heroTag),
     );
   }
 

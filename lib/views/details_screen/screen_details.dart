@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/logic/BaseBloc.dart';
+import 'package:popular_movies/base/repo/IRepository.dart';
+import 'package:popular_movies/logic/BackdropBloc.dart';
 import 'package:popular_movies/logic/DetailsMarkFavoriteBloc.dart';
 import 'package:popular_movies/logic/ReviewBloc.dart';
 import 'package:popular_movies/logic/TrailersBloc.dart';
 import 'package:popular_movies/logic/repository/Repository.dart';
-import 'package:popular_movies/logic/repository/SQLiteStorage.dart';
 import 'package:popular_movies/model/tmdb.dart';
 import 'package:popular_movies/views/details_screen/FavoriteIconButton.dart';
 import 'package:popular_movies/views/details_screen/FullReviewDialog.dart';
@@ -18,26 +19,29 @@ import 'package:url_launcher/url_launcher.dart';
 
 class DetailsScreen extends StatefulWidget {
   final Result movie;
+  final IRepository repository;
 
-  const DetailsScreen({this.movie});
+  const DetailsScreen({@required this.movie, @required this.repository});
 
   @override
   _DetailsScreenState createState() {
-    return new _DetailsScreenState(movie);
+    return new _DetailsScreenState(movie, repository);
   }
 }
 
 class _DetailsScreenState extends State<DetailsScreen>
     with SingleTickerProviderStateMixin {
-  _DetailsScreenState(this.movie) : movieId = movie.id.toString();
+  _DetailsScreenState(this.movie, this.repository)
+      : movieId = movie.id.toString();
 
   final Result movie;
-  final Repository repository = Repository(SQLiteStorage());
+  final Repository repository;
   final String movieId;
 
   TrailersBloc trailersBloc;
   ReviewsBloc reviewsBloc;
   DetailsMarkFavoriteBloc favoriteBloc;
+  BackdropBloc backdropBloc;
 
   AnimationController controller;
 
@@ -53,6 +57,9 @@ class _DetailsScreenState extends State<DetailsScreen>
 
     favoriteBloc =
         DetailsMarkFavoriteBloc(repository: repository, movie: movie);
+
+    backdropBloc = BackdropBloc(repository);
+    backdropBloc.loadBackdrops(movieId);
 
     controller =
         AnimationController(duration: Duration(milliseconds: 500), vsync: this);
@@ -87,10 +94,12 @@ class _DetailsScreenState extends State<DetailsScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (_) => FullscreenBackdrop(
+                  builder: (_) => BlocProvider(
+                      bloc: backdropBloc,
+                      child: FullscreenBackdrop(
                         movieId: movie.id,
                         repository: repository,
-                      )),
+                      ))),
             );
           },
           child: PosterWithInfo(movie: movie, controller: controller),
