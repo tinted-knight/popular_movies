@@ -13,7 +13,7 @@ import 'package:popular_movies/views/details_screen/OverviewContent.dart';
 import 'package:popular_movies/views/details_screen/poster_with_info/PosterWithInfo.dart';
 import 'package:popular_movies/views/details_screen/reviews/ReviewListWidget.dart';
 import 'package:popular_movies/views/details_screen/trailers/TrailerListWidget.dart';
-import 'package:popular_movies/views/fullscreen_backdrop/FullscreenBackdrop.dart';
+import 'package:popular_movies/views/screen_backdrops/FullscreenBackdrop.dart';
 import 'package:popular_movies/views/styles/DetailsScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -95,11 +95,9 @@ class _DetailsScreenState extends State<DetailsScreen>
               context,
               MaterialPageRoute(
                   builder: (_) => BlocProvider(
-                      bloc: backdropBloc,
-                      child: FullscreenBackdrop(
-                        movieId: movie.id,
-                        repository: repository,
-                      ))),
+                        bloc: backdropBloc,
+                        child: FullscreenBackdrop(),
+                      )),
             );
           },
           child: PosterWithInfo(movie: movie, controller: controller),

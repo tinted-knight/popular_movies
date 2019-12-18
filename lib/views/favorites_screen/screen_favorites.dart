@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:popular_movies/base/logic/BaseBloc.dart';
-import 'package:popular_movies/views/details_screen/screen_details.dart';
+import 'package:popular_movies/base/repo/IRepository.dart';
 import 'package:popular_movies/logic/FavoriteListBloc.dart';
-import 'package:popular_movies/views/widgets/SimpleMovieList.dart';
 import 'package:popular_movies/model/tmdb.dart';
+import 'package:popular_movies/views/details_screen/screen_details.dart';
+import 'package:popular_movies/views/widgets/SimpleMovieList.dart';
 
 class FavoritesScreen extends StatelessWidget {
   @override
@@ -25,7 +26,7 @@ class FavoritesScreen extends StatelessWidget {
           if (snapshot.data is FavoritesStateList) {
             FavoritesStateList state = snapshot.data;
             return SimpleMovieList(
-              onTap: (item) => _movieItemOnTap(item, context),
+              onTap: (item) => _movieItemOnTap(item, context, bloc.repository),
               items: state.values,
             );
           }
@@ -34,11 +35,16 @@ class FavoritesScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-_movieItemOnTap(Result item, BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (_) => DetailsScreen(movie: item)),
-  );
+  _movieItemOnTap(Result item, BuildContext context, IRepository repository) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => DetailsScreen(
+          movie: item,
+          repository: repository,
+        ),
+      ),
+    );
+  }
 }
